@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+Your income:
+<ul>
+   {% for income in revenues %}
+    <li> {{ income.amount }} {{ income.currency_id }} from {{ income.source_id }} {{ income.date }}
+    </li>
+
+    {% endfor %}
+
+
+</ul>
+
+</body>
+</html>
