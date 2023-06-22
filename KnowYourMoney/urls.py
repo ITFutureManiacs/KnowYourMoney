@@ -15,7 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.contrib.auth.views import LoginView
+
+from budget_manager import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+    path('accounts/login/', LoginView.as_view(), name='login'),
+    path('', views.HomePageView.as_view(), name='home'),
+    path('expense/create/', views.ExpenseCreateView.as_view(), name='expense-create'),
+    path('expense/view/', views.ExpenseListView.as_view(), name='expense-list'),
+    path('expense/<int:pk>/update/', views.ExpenseUpdateView.as_view(), name='expense-update'),
+    path('expense/<int:pk>/delete/', views.ExpenseDeleteView.as_view(), name='expense-delete'),
+
+    path('category/create/', views.CategoryCreateView.as_view(), name='category-create'),
+    path('source/create/', views.SourceCreateView.as_view(), name='source-create'),
+    ]
