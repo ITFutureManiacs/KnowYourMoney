@@ -1,4 +1,4 @@
-{% extends 'home.html' %}
+{% extends 'base.html' %}
 
 {% block body %}
 {% for expense in expenses_list %}
@@ -40,7 +40,7 @@
                     <td><a href="{% url 'expense-delete' expense.id %}">Delete</a></td>
                 </tr>
             {% endfor %}
-        
+
             </tbody>
         </table>    
         <div class="d-flex justify-content-center">
