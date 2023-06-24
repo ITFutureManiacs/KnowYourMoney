@@ -18,14 +18,7 @@ class ExpenseCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('expense-list')
 
     def form_valid(self, form):
-        cleaned = form.cleaned_data
         form.instance.user = self.request.user
-        # TODO czy można usunąć
-        form.instance.name = cleaned['name']
-        form.instance.cost = cleaned['cost']
-        form.instance.expense_date = cleaned['expense_date']
-        form.instance.currency = cleaned['currency']
-        form.instance.name = cleaned['category']
         return super().form_valid(form)
 
 
@@ -40,7 +33,7 @@ class ExpenseUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'expenses_update.html'
     fields = ['name', 'cost', 'expense_date', 'currency', 'category']
     success_url = reverse_lazy('expense-list')
-    context_object_name = 'xyz'
+    context_object_name = 'expense'
 
 
 class ExpenseDeleteView(LoginRequiredMixin, DeleteView):
@@ -52,26 +45,20 @@ class ExpenseDeleteView(LoginRequiredMixin, DeleteView):
 class SourceCreateView(LoginRequiredMixin, CreateView):
     model = Source
     template_name = 'sources_form.html'
-    fields = ['source_name']
+    fields = ['name']
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        cleaned = form.cleaned_data
         form.instance.user = self.request.user
-        form.instance.name = cleaned['source_name']
-
         return super().form_valid(form)
 
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     template_name = 'categories_form.html'
-    fields = ['category_name']
+    fields = ['name']
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        cleaned = form.cleaned_data
         form.instance.user = self.request.user
-        form.instance.name = cleaned['category_name']
-
         return super().form_valid(form)

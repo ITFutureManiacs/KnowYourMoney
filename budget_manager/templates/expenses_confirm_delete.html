@@ -2,14 +2,14 @@
 
 {% block body %}
 
-{% url 'expenses:all' as list_all %}
+{% url 'expense:all' as list_all %}
 
 <div class="container d-flex justify-content-center mt-5" style="width: 50%;">
     <div class="col mt-5 text-center">
         <h1 class="mb-5">Delete Expense</h1>
 
         <p class="h5">Are you sure you want to delete the Expense:</p>
-        <h3 class="my-5">{{ expenses.name }}</h3>
+        <h3 class="my-5">{{ expense.name }}</h3>
         <form action="" method="POST">
             {% csrf_token %}
 
