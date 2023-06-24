@@ -1,7 +1,7 @@
-{% extends 'home.html' %}
+{% extends 'base.html' %}
 
 {% block body %}
-{% for expense in expenses_list %}
+{% for expense in expense_list %}
     {% for colname in expense.column_set.all  %}
         <p>{{colname}}</p>
     {% endfor %}
@@ -26,7 +26,7 @@
             </thead>
             <tbody>
             
-                {% for expense in expenses_list %}
+                {% for expense in expense_list %}
                 <tr>
                     {% comment %} <th scope="row">{{forloop.counter}}</th> {% endcomment %}
 {#                    <td class="ml-5"><a href="{% url 'films:film_detail' expense.id %}">{{expense.name}}</a></td>#}
@@ -40,7 +40,7 @@
                     <td><a href="{% url 'expense-delete' expense.id %}">Delete</a></td>
                 </tr>
             {% endfor %}
-        
+
             </tbody>
         </table>    
         <div class="d-flex justify-content-center">
