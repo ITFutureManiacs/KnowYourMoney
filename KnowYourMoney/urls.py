@@ -27,6 +27,11 @@ urlpatterns = [
     path('expense/<int:pk>/update/', views.ExpenseUpdateView.as_view(), name='expense-update'),
     path('expense/<int:pk>/delete/', views.ExpenseDeleteView.as_view(), name='expense-delete'),
 
+    path('income/create/', views.IncomeCreateView.as_view(), name='income-create'),
+    path('income/view/', views.IncomeListView.as_view(), name='income-list'),
+    path('income/<int:pk>/update/', views.IncomeUpdateView.as_view(), name='income-update'),
+    path('income/<int:pk>/delete/', views.IncomeDeleteView.as_view(), name='income-delete'),
+
     path('category/create/', views.CategoryCreateView.as_view(), name='category-create'),
     path('source/create/', views.SourceCreateView.as_view(), name='source-create'),
     ]

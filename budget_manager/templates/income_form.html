@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<h1>Edytuj dochód</h1>
+<h1>Dodaj dochód</h1>
 {% block content %}
-<form method="POST" action="{% url 'income-update' income.id %}">
+<form method="POST" action="{% url 'income-create' %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Update</button>
+    <button type="submit">Create</button>
 </form>
 {% endblock %}
 
