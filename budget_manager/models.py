@@ -1,5 +1,8 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator
 
 
 class Source(models.Model):
@@ -39,10 +42,11 @@ class Income(models.Model):
 
 class Expense(models.Model):
     name = models.CharField(max_length=50)
-    cost = models.DecimalField(max_digits=7, decimal_places=2)
-    expense_date = models.DateField()
+    cost = models.DecimalField(max_digits=7, decimal_places=2,
+                               validators=[MinValueValidator(0.01, "Wartość musi być większa od 0")])
+    expense_date = models.DateField(default=datetime.date.today)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    currency = models.ForeignKey(Currency, on_delete=models.DO_NOTHING)
+    currency = models.ForeignKey(Currency, on_delete=models.DO_NOTHING, default=Currency.currency_code == 'PLN')
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
 
     def __str__(self):
