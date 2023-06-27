@@ -14,7 +14,7 @@
         <table class="table table-striped mt-5">
             <thead>
                 <tr>
-                    {% comment %} <th>#</th> {% endcomment %}
+                    <th class="text-center" scope="col">No.</th>
                     <th class="text-center" scope="col">Name</th>
                     <th class="text-center" scope="col">Cost</th>
                     <th class="text-center" scope="col">Date</th>
@@ -28,13 +28,13 @@
             
                 {% for expense in expense_list %}
                 <tr>
-                    {% comment %} <th scope="row">{{forloop.counter}}</th> {% endcomment %}
+                    <th class="text-center" scope="row">{{forloop.counter}}</th>
 {#                    <td class="ml-5"><a href="{% url 'films:film_detail' expense.id %}">{{expense.name}}</a></td>#}
 {#                    tworzy połączenie z detailview#}
                     <td class="text-center">{{expense.name}}</td>
                     <td class="text-center">{{expense.cost}}</td>
                     <td class="text-center">{{expense.expense_date}}</td>
-                    <td class="text-center">{{expense.currency}}</td>
+                    <td class="text-center">{{expense.currency.currency_code}}</td>
                     <td class="text-center">{{expense.category}}</td>
                     <td><a href="{% url 'expense-update' expense.id %} ">Update</a></td>
                     <td><a href="{% url 'expense-delete' expense.id %}">Delete</a></td>
@@ -44,7 +44,7 @@
             </tbody>
         </table>    
         <div class="d-flex justify-content-center">
-{#            <a href="{% url 'films:film_create' %}" class="d-block btn btn-primary btn-lg my-5">Add New</a>#}
+            <a href="{% url 'expense-create' %}" class="d-block btn btn-primary btn-lg my-5">Dodaj wydatek</a>
         </div>
     </div>
         
