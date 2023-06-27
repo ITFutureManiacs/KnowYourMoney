@@ -21,11 +21,21 @@ class ExpenseCreateView(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+    def get_form(self, *args, **kwargs):
+        """Displays only categories made by currently logged user"""
+        form = super(ExpenseCreateView, self).get_form(*args, **kwargs)
+        form.fields['category'].queryset = Category.objects.filter(user=self.request.user)
+        return form
+
 
 class ExpenseListView(LoginRequiredMixin, ListView):
     model = Expense
     template_name = 'expenses_list.html'
     fields = ['name', 'cost', 'expense_date', 'currency', 'category']
+
+    def get_queryset(self):
+        """Displays only objects made by currently logged user"""
+        return Expense.objects.filter(user=self.request.user)
 
 
 class ExpenseUpdateView(LoginRequiredMixin, UpdateView):
