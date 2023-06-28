@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block body %}
 
-      <h1>Home Page:</h1>
+      <h1>{{greet}} {{user}}:</h1>
         <ul>
           <li><a href="{% url 'expense-list' %}">Lista wydatków</a></li>
           <li><a href="{% url 'expense-create' %}">Dodaj wydatek</a></li>
