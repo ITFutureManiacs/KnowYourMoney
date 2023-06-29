@@ -3,6 +3,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
+from django.contrib.auth.models import User
 
 from budget_manager.models import Expense, Source, Category, Income
 
@@ -94,3 +95,19 @@ class IncomeDeleteView(LoginRequiredMixin, DeleteView):
     model = Income
     template_name = 'income_confirm_delete.html'
     success_url = reverse_lazy('income-list')
+
+
+class UserListView(LoginRequiredMixin, ListView):
+    model = User
+    template_name = 'user_list.html'
+    fields = ['username', 'first_name', 'last_name', 'email']
+
+#
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    template_name = 'user_update.html'
+    fields = ['username', 'first_name', 'last_name', 'email']
+    success_url = reverse_lazy('user-list')
+
+
+

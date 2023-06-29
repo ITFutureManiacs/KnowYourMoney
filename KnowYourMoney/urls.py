@@ -18,6 +18,7 @@ from django.urls import path
 from django.contrib.auth.views import LoginView
 from budget_manager import views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/login/', LoginView.as_view(), name='login'),
@@ -31,6 +32,10 @@ urlpatterns = [
     path('income/view/', views.IncomeListView.as_view(), name='income-list'),
     path('income/<int:pk>/update/', views.IncomeUpdateView.as_view(), name='income-update'),
     path('income/<int:pk>/delete/', views.IncomeDeleteView.as_view(), name='income-delete'),
+
+    path('user/view/', views.UserListView.as_view(), name='user-list'),
+    path('user/<int:pk>/update/', views.UserUpdateView.as_view(), name='user-update'),
+
 
     path('category/create/', views.CategoryCreateView.as_view(), name='category-create'),
     path('source/create/', views.SourceCreateView.as_view(), name='source-create'),
