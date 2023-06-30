@@ -23,7 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.HomePageView.as_view(), name='home'),
     path('expense/create/', views.ExpenseCreateView.as_view(), name='expense-create'),
-    path('expense/view/', views.ExpenseListView.as_view(), name='expense-list'),
+    path('expense/filter/view', views.ExpenseList.as_view(), name='expense-filter-list'),
     path('expense/<int:pk>/update/', views.ExpenseUpdateView.as_view(), name='expense-update'),
     path('expense/<int:pk>/delete/', views.ExpenseDeleteView.as_view(), name='expense-delete'),
     path('category/create/', views.CategoryCreateView.as_view(), name='category-create'),
