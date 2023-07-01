@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Witaj! Zaloguj się{% endblock %}
+
+{% block body %}
+    <h1>Dokonaj rejestracji nowego konta</h1>
+    <form method="post">
+    {% csrf_token %}
+    <table>{{ form }}</table>
+    <input type="submit" value="Submit" class="btn btn-primary">
+  </form>
+{% endblock body %}

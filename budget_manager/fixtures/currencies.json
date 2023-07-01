@@ -1,0 +1,42 @@
+[
+  {
+    "model": "budget_manager.currency",
+    "pk": 1,
+    "fields": {
+      "name": "Złoty",
+      "currency_code": "PLN"
+    }
+  },
+  {
+    "model": "budget_manager.currency",
+    "pk": 2,
+    "fields": {
+      "name": "Funt Szterling",
+      "currency_code": "GPB"
+    }
+  },
+    {
+    "model": "budget_manager.currency",
+    "pk": 3,
+    "fields": {
+      "name": "Frank Szwajcarski",
+      "currency_code": "CHF"
+    }
+  },
+    {
+    "model": "budget_manager.currency",
+    "pk": 4,
+    "fields": {
+      "name": "Euro",
+      "currency_code": "EUR"
+    }
+  },
+    {
+    "model": "budget_manager.currency",
+    "pk": 5,
+    "fields": {
+      "name": "Dolar Amerykański",
+      "currency_code": "USD"
+    }
+  }
+]
