@@ -5,8 +5,9 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
+from django.contrib.auth.models import User
 
-from budget_manager.models import Expense, Source, Category
+from budget_manager.models import Expense, Source, Category, Income
 
 
 class HomePageView(LoginRequiredMixin, TemplateView):
@@ -87,3 +88,51 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+
+class IncomeCreateView(LoginRequiredMixin, CreateView):
+    model = Income
+    template_name = 'income_form.html'
+    fields = ['amount', 'source', 'income_date', 'currency']
+    success_url = reverse_lazy('income-list')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class IncomeListView(LoginRequiredMixin, ListView):
+    model = Income
+    template_name = 'income_list.html'
+    fields = ['amount', 'source', 'income_date', 'currency']
+
+
+class IncomeUpdateView(LoginRequiredMixin, UpdateView):
+    model = Income
+    template_name = 'income_update.html'
+    fields = ['amount', 'source', 'income_date', 'currency']
+    success_url = reverse_lazy('income-list')
+    context_object_name = 'income'
+
+
+class IncomeDeleteView(LoginRequiredMixin, DeleteView):
+    model = Income
+    template_name = 'income_confirm_delete.html'
+    success_url = reverse_lazy('income-list')
+
+
+class UserListView(LoginRequiredMixin, ListView):
+    model = User
+    template_name = 'user_list.html'
+    fields = ['username', 'first_name', 'last_name', 'email']
+
+#
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    template_name = 'user_update.html'
+    fields = ['username', 'first_name', 'last_name', 'email']
+    success_url = reverse_lazy('user-list')
+
+
+

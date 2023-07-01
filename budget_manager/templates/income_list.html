@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block body %}
+{% for income in income_list %}
+    {% for colname in income.column_set.all  %}
+        <p>{{colname}}</p>
+    {% endfor %}
+{% endfor %}
+
+
+<div class="container d-flex mt-5" style="width: 70%;">
+    <div class="col">
+        <h1 class="text-center">My Income </h1>
+        <table class="table table-striped mt-5">
+            <thead>
+                <tr>
+                    {% comment %} <th>#</th> {% endcomment %}
+                    <th class="text-center" scope="col">Amount</th>
+                    <th class="text-center" scope="col">Source</th>
+                    <th class="text-center" scope="col">Date</th>
+                    <th class="text-center" scope="col">Currency</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for income in income_list %}
+                <tr>
+                    {% comment %} <th scope="row">{{forloop.counter}}</th> {% endcomment %}
+{#                    <td class="ml-5"><a href="{% url 'films:film_detail' income.id %}">{{income.amount}}</a></td>#}
+{#                    tworzy połączenie z detailview#}
+                    <td class="text-center">{{income.amount}}</td>
+                    <td class="text-center">{{income.source}}</td>
+                    <td class="text-center">{{income.income_date}}</td>
+                    <td class="text-center">{{income.currency}}</td>
+                    <td><a href="{% url 'income-update' income.id %} ">Update</a></td>
+                    <td><a href="{% url 'income-delete' income.id %}">Delete</a></td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+{#            <a href="{% url 'films:film_create' %}" class="d-block btn btn-primary btn-lg my-5">Add New</a>#}
+        </div>
+    </div>
+
+</div>
+
+{% endblock body %}>
