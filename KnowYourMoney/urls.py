@@ -28,5 +28,6 @@ urlpatterns = [
     path('expense/<int:pk>/delete/', views.ExpenseDeleteView.as_view(), name='expense-delete'),
     path('category/create/', views.CategoryCreateView.as_view(), name='category-create'),
     path('source/create/', views.SourceCreateView.as_view(), name='source-create'),
+    path('balance/view/', views.BalanceView.as_view(), name='balance'),
     path("accounts/", include("accounts.urls"))
     ]

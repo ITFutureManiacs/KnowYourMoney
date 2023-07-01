@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>Suma wydatków:</h1>
+
+
+
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col" rowspan="2" style="text-align: center; vertical-align : middle">Waluta</th>
+      <th scope="col" rowspan="2" style="text-align: center; vertical-align : middle">Ogółem</th>
+      <th colspan="{{number_of_categories}}" style="text-align: center">Kategoria</th>
+    </tr>"
+    <tr>
+      {% for category in list_of_categories %}
+      <th scope="col">{{category.name}}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for currency in list_of_currencies %}
+    <tr>
+      <th scope="row">{{currency.currency_code}}</th>
+      {%if currency.currency_code == "PLN" %}
+      <td>{{sum_PLN}}</td>
+      {%elif currency.currency_code == "GBP" %}
+      <td>{{sum_GBP}}</td>
+      {%elif currency.currency_code == "CHF" %}
+      <td>{{sum_CHF}}</td>
+      {%elif currency.currency_code == "EUR" %}
+      <td>{{sum_EUR}}</td>
+      {%elif currency.currency_code == "USD" %}
+      <td>{{sum_USD}}</td>
+      {%endif %}
+      {% for category in list_of_categories %}
+        {%if currency.currency_code == "PLN" %}
+      <td>Otto</td>
+        {%endif %}
+      {% endfor %}
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endblock body %}

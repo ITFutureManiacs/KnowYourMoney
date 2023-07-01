@@ -5,8 +5,9 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
+from django.db.models import Sum, Count, Subquery
 
-from budget_manager.models import Expense, Source, Category
+from budget_manager.models import Expense, Source, Category, Currency
 
 
 class HomePageView(LoginRequiredMixin, TemplateView):
@@ -87,3 +88,29 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+class BalanceView(LoginRequiredMixin,TemplateView):
+    template_name = "balance_view.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["sum_PLN"] = Expense.objects.filter(currency__currency_code="PLN").filter(user=self.request.user). \
+            aggregate(Sum("cost", default=0))["cost__sum"]
+        context["sum_EUR"] = Expense.objects.filter(currency__currency_code="EUR").filter(user=self.request.user). \
+            aggregate(Sum("cost", default=0))["cost__sum"]
+        context["sum_GBP"] = Expense.objects.filter(currency__currency_code="GBP").filter(user=self.request.user). \
+            aggregate(Sum("cost", default=0))["cost__sum"]
+        context["sum_USD"] = Expense.objects.filter(currency__currency_code="USD").filter(user=self.request.user). \
+            aggregate(Sum("cost", default=0))["cost__sum"]
+        context["sum_CHF"] = Expense.objects.filter(currency__currency_code="CHF").filter(user=self.request.user). \
+            aggregate(Sum("cost", default=0))["cost__sum"]
+        context["list_of_categories"] = Category.objects.filter(user=self.request.user)
+        context["number_of_categories"] = Category.objects.filter(user=self.request.user).aggregate(number=Count('*')) \
+            ["number"]
+        context["list_of_currencies"] = Currency.objects.all()
+
+
+
+        print(context)
+        return context
