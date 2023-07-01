@@ -42,10 +42,24 @@
             </tbody>
         </table>
         <div class="d-flex justify-content-center">
-{#            <a href="{% url 'films:film_create' %}" class="d-block btn btn-primary btn-lg my-5">Add New</a>#}
+{#            <a href="{% url 'films:film_create' %}" class="d-block btn btn-primary btn-lg my-5">Dodaj nowy</a>#}
         </div>
     </div>
 
 </div>
+<form action="" method="get">
+    {% csrf_token %}
+    <table>
+        <thead>
+            <tr>
+                <th class="text-center" scope="col">Filters</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ filter.form.as_table }}
+        </tbody>
+    </table>
+    <input type="submit" class="d-block btn btn-primary btn-lg my-3" value="Filtruj">
+</form>
 
 {% endblock body %}>
