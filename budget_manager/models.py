@@ -31,7 +31,7 @@ class Category(models.Model):
 
 class Income(models.Model):
     amount = models.DecimalField(max_digits=7, decimal_places=2, validators=[MinValueValidator(0.01, "Wartość musi być większa od 0")])
-    income_date = models.DateField()
+    income_date = models.DateField(default=datetime.date.today)
     source = models.ForeignKey(Source, on_delete=models.DO_NOTHING)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     currency = models.ForeignKey(Currency, on_delete=models.DO_NOTHING)
