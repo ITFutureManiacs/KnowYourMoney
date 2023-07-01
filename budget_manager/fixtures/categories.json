@@ -1,0 +1,68 @@
+[
+  {
+    "model": "budget_manager.category",
+    "pk": 1,
+    "fields": {
+      "name": "Produkty Spożywcze"
+    }},
+      {
+    "model": "budget_manager.category",
+    "pk": 2,
+    "fields": {
+      "name": "Rachunki"
+    }},
+         {
+    "model": "budget_manager.category",
+    "pk": 3,
+    "fields": {
+      "name": "Chemia domowa"
+    }},
+        {
+    "model": "budget_manager.category",
+    "pk": 4,
+    "fields": {
+      "name": "Przekąski"
+    }},
+        {
+    "model": "budget_manager.category",
+    "pk": 5,
+    "fields": {
+      "name": "Alkohol"
+    }},
+        {
+    "model": "budget_manager.category",
+    "pk": 6,
+    "fields": {
+      "name": "Prezenty"
+    }},
+          {
+    "model": "budget_manager.category",
+    "pk": 7,
+    "fields": {
+      "name": "Rozrywka"
+    }},
+             {
+    "model": "budget_manager.category",
+    "pk": 8,
+    "fields": {
+      "name": "Częsci samochodowe"
+    }},
+             {
+    "model": "budget_manager.category",
+    "pk": 9,
+    "fields": {
+      "name": "Komunikacja miejska"
+    }},
+             {
+    "model": "budget_manager.category",
+    "pk": 10,
+    "fields": {
+      "name": "Paliwo"
+    }},
+          {
+    "model": "budget_manager.category",
+    "pk": 11,
+    "fields": {
+      "name": "RTV i AGD"
+  }}
+]
