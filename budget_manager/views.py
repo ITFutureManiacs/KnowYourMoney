@@ -46,7 +46,7 @@ class ExpenseCreateView(LoginRequiredMixin, CreateView):
         return form
 
 
-class ExpenseList(FilterView):
+class ExpenseList(LoginRequiredMixin, FilterView):
     model = Expense
     context_object_name = 'expense'
     filterset_class = ExpenseFilter
