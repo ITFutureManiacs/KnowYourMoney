@@ -1,8 +1,16 @@
 import django_filters
-from .models import Expense
+from .models import Expense,Category
+
+
+def categories_list(request):
+    if request.user.is_authenticated:
+        return Category.objects.filter(user=None) | Category.objects.filter(user=request.user)
+    return Category.objects.none()
 
 
 class ExpenseFilter(django_filters.FilterSet):
+    category = django_filters.ModelChoiceFilter(
+        queryset= categories_list)
     cost = django_filters.NumberFilter()
     cost__gt = django_filters.NumberFilter(field_name='cost', lookup_expr='gt')
     cost__lt = django_filters.NumberFilter(field_name='cost', lookup_expr='lt')
@@ -16,3 +24,4 @@ class ExpenseFilter(django_filters.FilterSet):
     class Meta:
         model = Expense
         fields = ['category', 'currency', 'cost']
+
