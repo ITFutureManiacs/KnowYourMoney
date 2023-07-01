@@ -26,7 +26,7 @@ class Category(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f'{self.name} by {self.user}'
+        return f'{self.name}'
 
 
 class Income(models.Model):
