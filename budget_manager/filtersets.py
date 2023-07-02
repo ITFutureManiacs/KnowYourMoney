@@ -17,6 +17,7 @@ class ExpenseFilter(django_filters.FilterSet):
         model = Expense
         fields = ['category', 'currency', 'cost']
 
+
 class IncomeFilter(django_filters.FilterSet):
     amount = django_filters.NumberFilter()
     amount__gt = django_filters.NumberFilter(field_name='amount', lookup_expr='gt')
@@ -25,7 +26,6 @@ class IncomeFilter(django_filters.FilterSet):
     income_date = django_filters.DateFilter(field_name='income_date')
     income_date__gt = django_filters.DateFilter(field_name='income_date', lookup_expr='gt')
     income_date__lt = django_filters.DateFilter(field_name='income_date', lookup_expr='lt')
-
 
     class Meta:
         model = Income
