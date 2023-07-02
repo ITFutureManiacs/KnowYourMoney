@@ -21,7 +21,7 @@ from budget_manager import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.HomePageView.as_view(), name='home'),
+    path('', views.BalanceView.as_view(), name='home'),
     path('expense/create/', views.ExpenseCreateView.as_view(), name='expense-create'),
     path('expense/filter/view', views.ExpenseList.as_view(), name='expense-filter-list'),
     path('expense/<int:pk>/update/', views.ExpenseUpdateView.as_view(), name='expense-update'),
@@ -37,6 +37,6 @@ urlpatterns = [
 
     path('category/create/', views.CategoryCreateView.as_view(), name='category-create'),
     path('source/create/', views.SourceCreateView.as_view(), name='source-create'),
-    path("accounts/", include("accounts.urls"))
+    path("accounts/", include("accounts.urls")),
     ]
 

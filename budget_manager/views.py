@@ -1,6 +1,8 @@
 import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
@@ -9,23 +11,43 @@ from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 
 from .filtersets import ExpenseFilter, IncomeFilter
-from budget_manager.models import Expense, Source, Category, Income
+import matplotlib.pyplot as plt
+from budget_manager.models import Expense, Source, Category, Income, Currency
 
 
-class HomePageView(LoginRequiredMixin, TemplateView):
+class BalanceView(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        try:
+            total_expense = round(Expense.objects.filter(user=self.request.user).filter(
+                currency__currency_code="PLN").aggregate(Sum("cost", default=0))["cost__sum"], ndigits=2)
+            total_income = round(Income.objects.filter(user=self.request.user).filter(
+                currency__currency_code="PLN").aggregate(Sum("amount", default=0))["amount__sum"], ndigits=2)
+            total_balance = round(total_income - total_expense, ndigits=2)
+            fig = plt.figure(figsize=(8, 5))
+            plt.bar(['Wydatki', 'Przychody'], [total_expense, total_income], color=['red', 'green'], width=0.4)
+            plt.xlabel('Rodzaj')
+            plt.ylabel('Wartość')
+            plt.title('Bilans wydatków')
+            plt.savefig('budget_manager/static/budget_manager/expense.jpg')
 
-        if 4 < datetime.datetime.now().hour < 19:
-            greet = 'Dzień dobry'
-        else:
-            greet = 'Dobry wieczór'
+        except TypeError:
+            print('Brak danych')
 
-        context['user'] = self.request.user
-        context['greet'] = greet
+        monthly_income = Income.objects.filter(user=self.request.user).annotate(
+            month=TruncMonth('income_date')).values('month').annotate(total_amount=Sum('amount'))
+        monthly_expense = Expense.objects.filter(user=self.request.user).annotate(
+            month=TruncMonth('expense_date')).values('month').annotate(total_amount=Sum('cost'))
 
+        context = {
+            'total_expense': total_expense,
+            'total_income': total_income,
+            'total_balance': total_balance,
+            'monthly_income': monthly_income,
+            'monthly_expense': monthly_expense,
+        }
+    #     context["list_of_currencies"] = Currency.objects.all()
         return context
 
 
@@ -42,16 +64,15 @@ class ExpenseCreateView(LoginRequiredMixin, CreateView):
     def get_form(self, *args, **kwargs):
         """Displays only categories made by currently logged user"""
         form = super(ExpenseCreateView, self).get_form(*args, **kwargs)
-        form.fields['category'].queryset = Category.objects.filter(user=self.request.user)
+        form.fields['category'].queryset = Category.objects.filter(user=self.request.user) | \
+                                           Category.objects.filter(user=None)
         return form
 
 
 class ExpenseList(LoginRequiredMixin, FilterView):
-    model = Expense
     context_object_name = 'expense'
     filterset_class = ExpenseFilter
     template_name = 'expense_filter_list.html'
-    fields = ['name', 'cost', 'expense_date', 'currency', 'category']
 
     def get_queryset(self):
         """Displays only objects made by currently logged user"""

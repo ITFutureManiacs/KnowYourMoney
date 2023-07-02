@@ -1,17 +1,73 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block body %}
+<section style="background-color: #eee;">
+  <section style="background-color: #99ccff;">
+  <div class="container py-4">
+    <section style="background-color: #99ccff;">
+    <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4 ">
+          <ol class="breadcrumb mb-0">
+           <li class="text-center" >Cześć <b>{{user}}</b>! Aktualny bilans Twoich rachunków</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    </section>
+  </div>
+  </section>
+</section>
+<section style="background-color: #99ccff;">
+    <div class="text-center">
+      <img src= "{% static 'budget_manager/expense.jpg' %}" alt="bilans" class="img-fluid bg-light rounded-3 p-1 mb-4 ">
+    </div>
+    <div class="container py-4">
+      <div aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+        <div class=class="text-center">
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Przychody</p>
+            </div>
+            <div class="col-sm-3">
+              <p class="text-muted mb-0"> {{ total_income }}</p>
+            </div>
+            <div class="col-sm-3">
+              <p><a class="btn btn-primary" href="{% url 'income-list' %}" role="button">Zobacz przychody</a></p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Wydatki</p>
+            </div>
+            <div class="col-sm-3">
+              <p class="text-muted mb-0">{{ total_expense }}</p>
+            </div>
+            <div class="col-sm-3">
+              <p><a class="btn btn-primary" href="{% url 'expense-filter-list' %}" role="button">Zobacz wydatki</a></p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Suma</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{ total_balance }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
 
-      <h1>{{greet}} {{user}}:</h1>
-        <ul>
-            <li><a href="{% url 'expense-filter-list' %}">Lista wydatków</a></li>
-            <li><a href="{% url 'income-list' %}">Lista dochodów</a></li>
-            <li><a href="{% url 'expense-create' %}">Dodaj wydatek</a></li>
-            <li><a href="{% url 'income-create' %}">Dodaj dochód</a></li>
-            <li><a href="{% url 'category-create' %}">Dodaj kategorię</a></li>
-            <li><a href="{% url 'source-create' %}">Dodaj źródło</a></li>
-            <li><a href="{% url 'password_change' %}">Zmień hasło</a></li>
-            <li><a href="{% url 'logout' %}">Wyloguj się</a></li>
+{% for income in monthly_income %}
+  <p>{{ income.month }} {{ income.total_amount }}</p>
+{% endfor %}
+<p>==============================</p>
+{% for expense in monthly_expense %}
+  <p>{{ expense.month }} {{ expense.total_amount }}</p>
+{% endfor %}
 
-        </ul>
-
-{% endblock body%}dblock body%}
+{% endblock body %}

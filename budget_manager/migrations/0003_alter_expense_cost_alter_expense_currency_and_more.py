@@ -40,6 +40,7 @@ class Migration(migrations.Migration):
             name="expense_date",
             field=models.DateField(default=datetime.date.today),
         ),
+
         migrations.AlterField(
             model_name="income",
             name="amount",
