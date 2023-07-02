@@ -37,6 +37,7 @@ urlpatterns = [
 
     path('category/create/', views.CategoryCreateView.as_view(), name='category-create'),
     path('source/create/', views.SourceCreateView.as_view(), name='source-create'),
-    path("accounts/", include("accounts.urls"))
+    path("accounts/", include("accounts.urls")),
+    path("balance/", views.BalanceView.as_view(), name='balance')
     ]
 
