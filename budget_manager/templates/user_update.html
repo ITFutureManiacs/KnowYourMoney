@@ -3,14 +3,14 @@
 
 
         <div class="container bootstrap snippets bootdey">
-    <h1 class="text-primary">Edit Profile</h1>
+    <h1 class="text-primary">Edycja Profilu</h1>
       <hr>
 	<div class="row">
       <!-- left column -->
       <div class="col-md-3">
         <div class="text-center">
           <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar img-circle img-thumbnail" alt="avatar">
-          <h6>Upload a different photo...</h6>
+          <h6>Prześlij swoje zdjęcie</h6>
 
           <input type="file" class="form-control">
         </div>
@@ -21,14 +21,14 @@
         <div class="alert alert-info alert-dismissable">
           <a class="panel-close close" data-dismiss="alert"></a>
           <i class="fa fa-coffee"></i>
-          <strong> You are editting your personal data </strong>
+          <strong> Edytujesz swoje dane osobiste </strong>
         </div>
-        <h3>Personal data {{ user.username }}</h3>
+        <h3>Dane osobowe {{ user.username }}</h3>
             {% block content %}
               <form method="POST" action="{% url 'user-update' user.id %}">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button type="submit">Update</button>
+                    <button type="submit" class="btn btn-primary btn-block">Aktualizuj</button>
                     </form>
             {% endblock %}
 
