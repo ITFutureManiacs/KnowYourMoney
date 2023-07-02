@@ -1,13 +1,24 @@
 {% extends 'base.html' %}
 {% block body %}
-
-<h1>Edytuj wydatek</h1>
 {% block content %}
-<form method="POST" action="{% url 'expense-update' expense.id %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Update</button>
-</form>
+<br>
+<div class="container p-10">
+            <div class="form-container">
+              <div class="row justify-content-center align-content-center">
+                  <div class="col-md-6">
+                      <div class="card p-5">
+                        <h1 class="text-center">Edytuj wydatek</h1>
+
+                        <form method="POST" action="{% url 'expense-update' expense.id %}" class="text-center">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary btn-block">Aktualizuj dane</button>
+                        </form>
+                      </div>
+                  </div>
+              </div>
+            </div>
+</div>
 {% endblock %}
 
 {% endblock body %}

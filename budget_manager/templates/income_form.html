@@ -1,13 +1,24 @@
 {% extends 'base.html' %}
 {% block body %}
-
-<h1>Dodaj dochód</h1>
 {% block content %}
-<form method="POST" action="{% url 'income-create' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Create</button>
-</form>
+<br>
+<div class="container p-10">
+            <div class="form-container">
+              <div class="row justify-content-center align-content-center">
+                  <div class="col-md-6">
+                      <div class="card p-5">
+                        <h1 class="text-center">Dodaj dochód</h1>
+                          <br>
+                        <form method="POST" action="{% url 'income-create' %}" class="text-center">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary btn-block">Dodaj dochód</button>
+                        </form>
+                      </div>
+                  </div>
+              </div>
+            </div>
+    </div>
 {% endblock %}
 
 {% endblock body %}
