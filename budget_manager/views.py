@@ -15,20 +15,39 @@ import matplotlib.pyplot as plt
 from budget_manager.models import Expense, Source, Category, Income, Currency
 
 
-class HomePageView(LoginRequiredMixin, TemplateView):
+class BalanceView(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        try:
+            total_expense = round(Expense.objects.filter(user=self.request.user).filter(
+                currency__currency_code="PLN").aggregate(Sum("cost", default=0))["cost__sum"], ndigits=2)
+            total_income = round(Income.objects.filter(user=self.request.user).filter(
+                currency__currency_code="PLN").aggregate(Sum("amount", default=0))["amount__sum"], ndigits=2)
+            total_balance = round(total_income - total_expense, ndigits=2)
+            fig = plt.figure(figsize=(8, 5))
+            plt.bar(['Wydatki', 'Przychody'], [total_expense, total_income], color=['red', 'green'], width=0.4)
+            plt.xlabel('Rodzaj')
+            plt.ylabel('Wartość')
+            plt.title('Bilans wydatków')
+            plt.savefig('budget_manager/static/budget_manager/expense.jpg')
 
-        if 4 < datetime.datetime.now().hour < 19:
-            greet = 'Dzień dobry'
-        else:
-            greet = 'Dobry wieczór'
+        except TypeError:
+            print('Brak danych')
 
-        context['user'] = self.request.user
-        context['greet'] = greet
+        monthly_income = Income.objects.filter(user=self.request.user).annotate(
+            month=TruncMonth('income_date')).values('month').annotate(total_amount=Sum('amount'))
+        monthly_expense = Expense.objects.filter(user=self.request.user).annotate(
+            month=TruncMonth('expense_date')).values('month').annotate(total_amount=Sum('cost'))
 
+        context = {
+            'total_expense': total_expense,
+            'total_income': total_income,
+            'total_balance': total_balance,
+            'monthly_income': monthly_income,
+            'monthly_expense': monthly_expense,
+        }
+    #     context["list_of_currencies"] = Currency.objects.all()
         return context
 
 
@@ -139,39 +158,3 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'user_update.html'
     fields = ['username', 'first_name', 'last_name', 'email']
     success_url = reverse_lazy('user-list')
-
-
-class BalanceView(TemplateView):
-    template_name = 'balance.html'
-
-    def get_context_data(self, **kwargs):
-        try:
-            total_expense = round(Expense.objects.filter(user=self.request.user).filter(
-                currency__currency_code="PLN").aggregate(Sum("cost", default=0))["cost__sum"], ndigits=2)
-            total_income = round(Income.objects.filter(user=self.request.user).filter(
-                currency__currency_code="PLN").aggregate(Sum("amount", default=0))["amount__sum"], ndigits=2)
-            total_balance = round(total_income - total_expense, ndigits=2)
-            fig = plt.figure(figsize=(8, 5))
-            plt.bar(['Wydatki', 'Przychody'], [total_expense, total_income], color=['red', 'green'], width=0.4)
-            plt.xlabel('Rodzaj')
-            plt.ylabel('Wartość')
-            plt.title('Bilans wydatków')
-            plt.savefig('budget_manager/static/budget_manager/expense.jpg')
-
-        except TypeError:
-            print('Brak danych')
-
-        monthly_income = Income.objects.filter(user=self.request.user).annotate(
-            month=TruncMonth('income_date')).values('month').annotate(total_amount=Sum('amount'))
-        monthly_expense = Expense.objects.filter(user=self.request.user).annotate(
-            month=TruncMonth('expense_date')).values('month').annotate(total_amount=Sum('cost'))
-
-        context = {
-            'total_expense': total_expense,
-            'total_income': total_income,
-            'total_balance': total_balance,
-            'monthly_income': monthly_income,
-            'monthly_expense': monthly_expense,
-        }
-    #     context["list_of_currencies"] = Currency.objects.all()
-        return context
