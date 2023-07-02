@@ -132,6 +132,9 @@ class IncomeListView(LoginRequiredMixin, FilterView):
     template_name = 'income_list.html'
     fields = ['amount', 'source', 'income_date', 'currency']
 
+    def get_queryset(self):
+        """Displays only objects made by currently logged user"""
+        return Income.objects.filter(user=self.request.user)
 
 class IncomeUpdateView(LoginRequiredMixin, UpdateView):
     model = Income
