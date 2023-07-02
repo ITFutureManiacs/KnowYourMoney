@@ -45,7 +45,8 @@ class ExpenseCreateView(LoginRequiredMixin, CreateView):
     def get_form(self, *args, **kwargs):
         """Displays only categories made by currently logged user"""
         form = super(ExpenseCreateView, self).get_form(*args, **kwargs)
-        form.fields['category'].queryset = Category.objects.filter(user=self.request.user)
+        form.fields['category'].queryset = Category.objects.filter(user=self.request.user) | \
+                                           Category.objects.filter(user=None)
         return form
 
 

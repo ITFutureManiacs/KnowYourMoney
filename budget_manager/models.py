@@ -22,8 +22,8 @@ class Currency(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=50)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50, unique=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f'{self.name} by {self.user}'
