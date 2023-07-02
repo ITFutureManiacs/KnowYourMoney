@@ -9,36 +9,37 @@
         <h2>Prosimy o zalogowanie lub rejestrację nowego użytkownika:</h2>
 
         <div class="container p-10">
-    <div class="form-container">
-      <div class="row justify-content-center align-content-center">
-          <div class="col-md-6">
-              <div class="card p-5">
-              <h2 class="text-center">Zaloguj się</h2>
-              <br>
-              <form method="POST" action="{% url 'login' %}">
-                  {% csrf_token %}
-                 {{ form }}
-                  <br><br>
-                  <button type="submit" class="btn btn-primary btn-block">Zaloguj</button>
-              </form>
-          </div>
-          </div>
-      </div>
-   </div>
-</div>
-
+            <div class="form-container">
+              <div class="row justify-content-center align-content-center">
+                  <div class="col-md-6">
+                      <div class="card p-5">
+                          <h2 class="text-center">Zaloguj się</h2>
+                          <br>
+                          <form method="POST" action="{% url 'login' %}">
+                              {% csrf_token %}
+                              <div class="row justify-content-center align-content-center">
+                                  <table >{{ form.as_p }}</table>
+                              </div>
+                              <button type="submit" class="btn btn-primary btn-block">Zaloguj</button>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+<br><br>
              <form action="{% url 'registration' %}">
-    <button type="submit" class="btn btn-primary btn-block">Zarejestruj się </button>
-</form>
+                <button type="submit" class="btn btn-primary btn-block">Zarejestruj się </button>
+             </form>
         <p>Zapomniałeś hasła?
             <form action="{% url 'password_reset' %}">
-    <button type="submit" class="btn btn-primary btn-block">Zresetuj je </button>
-</form>
+                <button type="submit" class="btn btn-primary btn-block">Zresetuj je </button>
+            </form>
     </div>
- <div class="text-center">
-        <h2>Zapraszamy do skorzystania z naszej innowacyjnej aplikacji!</h2>
-        <h2>Jest to aplikacja obsługująca w sposób kompleksowy i profesjonalny nasz domowy budżet oferuje
-            aż 3 typy podglądu i wiele innych bogatych funkcjonalności.</h2>
-        <div class="container p-10">
+        <div class="text-center">
+            <h2>Zapraszamy do skorzystania z naszej innowacyjnej aplikacji!</h2>
+            <h2>Jest to aplikacja obsługująca w sposób kompleksowy i profesjonalny nasz domowy budżet oferuje
+                aż 3 typy podglądu i wiele innych bogatych funkcjonalności.</h2>
+        </div>
 
 {% endblock body %}
