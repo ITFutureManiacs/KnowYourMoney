@@ -30,3 +30,4 @@ class IncomeFilter(django_filters.FilterSet):
     class Meta:
         model = Income
         fields = ['source', 'currency']
+
