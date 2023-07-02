@@ -1,12 +1,27 @@
 {% extends "base.html" %}
 
-{% block title %}Witaj! Zaloguj się{% endblock %}
+{% block title %}Witaj! Zarejestruj się!{% endblock %}
 
 {% block body %}
-    <h1>Dokonaj rejestracji nowego konta</h1>
-    <form method="post">
-    {% csrf_token %}
-    <table>{{ form }}</table>
-    <input type="submit" value="Submit" class="btn btn-primary">
-  </form>
+<br>
+<div class="container p-10">
+        <div class="form-container">
+          <div class="row justify-content-center align-content-center">
+              <div class="col-md-8">
+                  <div class="card p-5">
+                      <h3 class="text-center">Dokonaj rejestracji nowego konta</h3>
+                      <br>
+                        <form method="post">
+                            {% csrf_token %}
+                            <table>{{ form.as_p }}</table>
+                            <div class="row justify-content-center align-content-center">
+                                <input type="submit" value="Zarejestruj" class="btn btn-primary"  >
+                            </div>
+                        </form>
+                  </div>
+              </div>
+          </div>
+        </div>
+</div>
+
 {% endblock body %}
