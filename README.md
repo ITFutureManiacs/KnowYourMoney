@@ -21,11 +21,13 @@ This is an application to control your home budget. It allows user to add income
 
 # Usage
 - To use this application you need to type (if you're in your workspace directory):
+  
+        python manage.py loaddata categories
+
+        python manage.py loaddata currencies
         
         python manage.py runserver
-    or 
-
-        python3 manage.py runserver
+ 
 - After that you need to create an account to start using app.
 
 
