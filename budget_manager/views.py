@@ -8,7 +8,7 @@ from django_filters.views import FilterView
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 
-from .filtersets import ExpenseFilter
+from .filtersets import ExpenseFilter, IncomeFilter
 from budget_manager.models import Expense, Source, Category, Income
 
 
@@ -106,8 +106,9 @@ class IncomeCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class IncomeListView(LoginRequiredMixin, ListView):
+class IncomeListView(LoginRequiredMixin, FilterView):
     model = Income
+    filterset_class = IncomeFilter
     template_name = 'income_list.html'
     fields = ['amount', 'source', 'income_date', 'currency']
 
@@ -137,6 +138,3 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'user_update.html'
     fields = ['username', 'first_name', 'last_name', 'email']
     success_url = reverse_lazy('user-list')
-
-
-

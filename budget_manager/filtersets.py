@@ -1,5 +1,5 @@
 import django_filters
-from .models import Expense,Category
+from .models import Expense,Category,Income
 
 
 def categories_list(request):
@@ -24,4 +24,18 @@ class ExpenseFilter(django_filters.FilterSet):
     class Meta:
         model = Expense
         fields = ['category', 'currency', 'cost']
+
+
+class IncomeFilter(django_filters.FilterSet):
+    amount = django_filters.NumberFilter()
+    amount__gt = django_filters.NumberFilter(field_name='amount', lookup_expr='gt')
+    amount__lt = django_filters.NumberFilter(field_name='amount', lookup_expr='lt')
+
+    income_date = django_filters.DateFilter(field_name='income_date')
+    income_date__gt = django_filters.DateFilter(field_name='income_date', lookup_expr='gt')
+    income_date__lt = django_filters.DateFilter(field_name='income_date', lookup_expr='lt')
+
+    class Meta:
+        model = Income
+        fields = ['source', 'currency']
 
