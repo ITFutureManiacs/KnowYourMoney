@@ -20,7 +20,18 @@
                           <form method="POST" action="{% url 'login' %}">
                               {% csrf_token %}
                               <div class="row justify-content-center align-content-center">
-                                  <table >{{ form.as_p }}</table>
+                                  <table class="table table-bordered">
+                                      <tbody>
+                                        <tr>
+                                          <th class="w-auto" scope="row">{{ form.username.label }}</th>
+                                          <td class="w-auto">{{ form.username }}</td>
+                                        </tr>
+                                        <tr>
+                                          <th class="w-auto" scope="row">{{ form.password.label }}</th>
+                                          <td class="w-auto">{{ form.password }}</td>
+                                        </tr>
+                                      </tbody>
+                                  </table >
                               </div>
                               <button type="submit" class="btn btn-primary btn-block">Zaloguj</button>
                           </form>

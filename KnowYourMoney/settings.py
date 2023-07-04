@@ -133,4 +133,4 @@ EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 
-#AUTHENTICATION_BACKENDS = ['accounts.backends.EmailOrLoginUsernameAuthenticationBackend']
+AUTHENTICATION_BACKENDS = ['accounts.backends.EmailOrLoginUsernameAuthenticationBackend']
