@@ -1,8 +1,9 @@
 from django.urls import path
 from accounts import views
+from accounts import forms
 
 urlpatterns = [
-    path('login/', views.MyLoginView.as_view(), name='login'),
+    path('login/', views.MyLoginView.as_view(authentication_form=forms.UserLoginForm), name='login'),
     path('registration/', views.RegistrationView.as_view(), name='registration'),
     path("logout/", views.MyLogoutView.as_view(), name='logout'),
     path("password_change/", views.MyPasswordChangeView.as_view(), name='password_change'),
