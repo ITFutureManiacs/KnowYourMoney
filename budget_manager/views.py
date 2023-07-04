@@ -1,8 +1,6 @@
-import datetime
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
-from django.db.models.functions import TruncMonth
+from django.db.models.functions import ExtractMonth
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
@@ -12,33 +10,35 @@ from django.contrib.auth.models import User
 
 from .filtersets import ExpenseFilter, IncomeFilter
 import matplotlib.pyplot as plt
-from budget_manager.models import Expense, Source, Category, Income, Currency
+from budget_manager.models import Expense, Source, Category, Income
 
 
 class BalanceView(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
 
+    # def get(self, request, *args, **kwargs):
+    #     period = self.request.GET.get('period', '')
+
     def get_context_data(self, **kwargs):
+        total_expense = round(Expense.objects.filter(user=self.request.user).filter(
+            currency__currency_code="PLN").aggregate(Sum("cost", default=0))["cost__sum"], ndigits=2)
+        total_income = round(Income.objects.filter(user=self.request.user).filter(
+            currency__currency_code="PLN").aggregate(Sum("amount", default=0))["amount__sum"], ndigits=2)
+        total_balance = round(total_income - total_expense, ndigits=2)
         try:
-            total_expense = round(Expense.objects.filter(user=self.request.user).filter(
-                currency__currency_code="PLN").aggregate(Sum("cost", default=0))["cost__sum"], ndigits=2)
-            total_income = round(Income.objects.filter(user=self.request.user).filter(
-                currency__currency_code="PLN").aggregate(Sum("amount", default=0))["amount__sum"], ndigits=2)
-            total_balance = round(total_income - total_expense, ndigits=2)
             fig = plt.figure(figsize=(8, 5))
             plt.bar(['Wydatki', 'Przychody'], [total_expense, total_income], color=['red', 'green'], width=0.4)
             plt.xlabel('Rodzaj')
             plt.ylabel('Wartość')
-            plt.title('Bilans wydatków')
+            plt.title('Bilans finansów')
             plt.savefig('budget_manager/static/budget_manager/expense.jpg')
-
         except TypeError:
             print('Brak danych')
 
         monthly_income = Income.objects.filter(user=self.request.user).annotate(
-            month=TruncMonth('income_date')).values('month').annotate(total_amount=Sum('amount'))
+            month=ExtractMonth('income_date')).values('month').annotate(total_amount=Sum('amount'))
         monthly_expense = Expense.objects.filter(user=self.request.user).annotate(
-            month=TruncMonth('expense_date')).values('month').annotate(total_amount=Sum('cost'))
+            month=ExtractMonth('expense_date')).values('month').annotate(total_amount=Sum('cost'))
 
         context = {
             'total_expense': total_expense,
@@ -47,7 +47,6 @@ class BalanceView(LoginRequiredMixin, TemplateView):
             'monthly_income': monthly_income,
             'monthly_expense': monthly_expense,
         }
-    #     context["list_of_currencies"] = Currency.objects.all()
         return context
 
 
@@ -58,6 +57,8 @@ class ExpenseCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('expense-filter-list')
 
     def form_valid(self, form):
+        """Object creation method based on given model. Saves logged user
+        as object creator"""
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -66,6 +67,15 @@ class ExpenseCreateView(LoginRequiredMixin, CreateView):
         form = super(ExpenseCreateView, self).get_form(*args, **kwargs)
         form.fields['category'].queryset = Category.objects.filter(user=self.request.user) | \
                                            Category.objects.filter(user=None)
+        field_labels = {'name': 'Nazwa',
+                        'cost': 'Koszt',
+                        'expense_date': 'Data wydatku',
+                        'currency': 'Waluta',
+                        'category': 'Kategoria'}
+
+        for field_name, label in field_labels.items():
+            if field_name in form.fields:
+                form.fields[field_name].label = label
         return form
 
 
@@ -100,6 +110,8 @@ class SourceCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
+        """Object creation method based on given model. Saves logged user
+            as object creator"""
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -111,6 +123,8 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
+        """Object creation method based on given model. Saves logged user
+            as object creator"""
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -122,19 +136,37 @@ class IncomeCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('income-list')
 
     def form_valid(self, form):
+        """Object creation method based on given model. Saves logged user
+            as object creator"""
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+    def get_form(self, *args, **kwargs):
+        """Displays only categories made by currently logged user"""
+        form = super(IncomeCreateView, self).get_form(*args, **kwargs)
+        form.fields['source'].queryset = Source.objects.filter(user=self.request.user) | \
+                                         Source.objects.filter(user=None)
+
+        field_labels = {'amount': 'Wartość',
+                        'income_date': 'Data przychodu',
+                        'source': 'Źródło',
+                        'currency': 'Waluta'}
+
+        for field_name, label in field_labels.items():
+            if field_name in form.fields:
+                form.fields[field_name].label = label
+        return form
+
 
 class IncomeListView(LoginRequiredMixin, FilterView):
-    model = Income
+    context_object_name = 'income'
     filterset_class = IncomeFilter
     template_name = 'income_list.html'
-    fields = ['amount', 'source', 'income_date', 'currency']
 
     def get_queryset(self):
         """Displays only objects made by currently logged user"""
         return Income.objects.filter(user=self.request.user)
+
 
 class IncomeUpdateView(LoginRequiredMixin, UpdateView):
     model = Income
