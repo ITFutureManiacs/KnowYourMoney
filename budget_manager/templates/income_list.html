@@ -1,64 +1,55 @@
 {% extends 'base.html' %}
-
 {% block body %}
-{% for income in income_list %}
-    {% for colname in income.column_set.all  %}
-        <p>{{colname}}</p>
-    {% endfor %}
-{% endfor %}
-
 
 <div class="container d-flex mt-5" style="width: 70%;">
     <div class="col">
-        <h1 class="text-center">My Income </h1>
+        <h1 class="text-center">Moje przychody </h1>
+        <form action="" method="get">
+        <table class="table table-striped mt-5">
+            <tr>
+                <th class="text-center col-sm-1" scope="col">Wartość: {{ filter.form.amount }} </th>
+                <th class="text-center col-sm-1" scope="col">Źródło: {{ filter.form.source }}</th>
+                <th class="text-center col-sm-1" scope="col">Od: {{ filter.form.income_date__gte }}
+                                                            Do: {{ filter.form.income_date__lte }}</th>
+                <th class="text-center col-sm-1" scope="col">Waluta: {{ filter.form.currency }}</th>
+                <th><input type="submit" class="d-block btn btn-primary  my-3" value="Szukaj"></th>
+                <th></th>
+            </tr>
+        </table>
+        </form>
         <table class="table table-striped mt-5">
             <thead>
                 <tr>
-                    {% comment %} <th>#</th> {% endcomment %}
-                    <th class="text-center" scope="col">Amount</th>
-                    <th class="text-center" scope="col">Source</th>
-                    <th class="text-center" scope="col">Date</th>
-                    <th class="text-center" scope="col">Currency</th>
+                    <th class="text-center" scope="col">Nr.</th>
+                    <th class="text-center" scope="col">Wartość</th>
+                    <th class="text-center" scope="col">Źródło</th>
+                    <th class="text-center" scope="col">Data</th>
+                    <th class="text-center" scope="col">Waluta</th>
                     <th></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-
-                {% for income in income_list %}
+            {% for obj in filter.qs %}
                 <tr>
-                    {% comment %} <th scope="row">{{forloop.counter}}</th> {% endcomment %}
-{#                    <td class="ml-5"><a href="{% url 'films:film_detail' income.id %}">{{income.amount}}</a></td>#}
+                    <th class="text-center" scope="row">{{forloop.counter}}</th>
+{#                    <td class="ml-5"><a href="{% url 'films:film_detail' income.id %}">{{ obj.amount }}</a></td>#}
 {#                    tworzy połączenie z detailview#}
-                    <td class="text-center">{{income.amount}}</td>
-                    <td class="text-center">{{income.source}}</td>
-                    <td class="text-center">{{income.income_date}}</td>
-                    <td class="text-center">{{income.currency}}</td>
-                    <td><a href="{% url 'income-update' income.id %} ">Update</a></td>
-                    <td><a href="{% url 'income-delete' income.id %}">Delete</a></td>
+                    <td class="text-center">{{ obj.amount }}</td>
+                    <td class="text-center">{{ obj.source }}</td>
+                    <td class="text-center">{{ obj.income_date }}</td>
+                    <td class="text-center">{{ obj.currency }}</td>
+                    <td><a href="{% url 'income-update' obj.id %}" class="d-block btn btn-primary btn-sm my-0">Edytuj</a></td>
+                    <td><a href="{% url 'income-delete' obj.id %}" class="d-block btn btn-primary btn-sm my-0">Usuń</a></td>
                 </tr>
             {% endfor %}
             </tbody>
-                </table>
-                <div class="d-flex justify-content-center">
-                    <a href="{% url 'income-create' %}" class="d-block btn btn-primary btn-lg my-5">Dodaj dochód</a>
-                </div>
-            </div>
-
+        </table>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'income-create' %}" class="d-block btn btn-primary btn-lg my-5">Dodaj dochód</a>
+        </div>
+    </div>
 </div>
-<form action="" method="get">
-    {% csrf_token %}
-    <table>
-        <thead>
-            <tr>
-                <th class="text-center" scope="col">Filters</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{ filter.form.as_table }}
-        </tbody>
-    </table>
-    <input type="submit" class="d-block btn btn-primary btn-lg my-3" value="Filtruj">
-</form>
+
 
 {% endblock body %}>
