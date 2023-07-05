@@ -19,8 +19,10 @@
                           <br>
                           <form method="POST" action="{% url 'login' %}">
                               {% csrf_token %}
-                              <div class="row justify-content-center align-content-center">
-                                  <table >{{ form.as_p }}</table>
+                              <div >
+                                  <table class="table">
+                                    {{ form.as_table }}
+                                  </table >
                               </div>
                               <button type="submit" class="btn btn-primary btn-block">Zaloguj</button>
                           </form>

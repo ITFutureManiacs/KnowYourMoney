@@ -4,11 +4,14 @@ from accounts import forms
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView,LogoutView, PasswordResetView, PasswordChangeView,PasswordResetDoneView,\
     PasswordResetConfirmView,PasswordChangeDoneView,PasswordResetCompleteView
+from accounts.forms import UserLoginForm
+from accounts.backends import EmailOrLoginUsernameAuthenticationBackend as Email_Login_Backend
+from django.contrib import messages
 
 
 class RegistrationView(View):
 
-    def get(self,request):
+    def get(self, request):
         return render(request, template_name="accounts/registration.html", context={"form": forms.UserRegistrationForm()})
 
     def post(self, request, *args, **kwargs):
@@ -23,9 +26,34 @@ class RegistrationView(View):
         return render(request, "accounts/registration.html", {"form": form})
 
 
-class MyLoginView(LoginView):
+class MyLoginView(View):
     template_name = "accounts/login.html"
     next_page = "/"
+    form_class = UserLoginForm
+
+    def get(self, request):
+        form = self.form_class
+        return render(request, self.template_name, {'form': form})
+    def post(self, request):
+        form = self.form_class(request.POST, data=request.POST)
+        # print(form)
+        # print(form.is_valid())
+        print(form.data)
+        print(form._errors)
+        print(form.is_bound)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = Email_Login_Backend.authenticate(request, username=cd['username'], password=cd['password'])
+            print(user)
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'You have successfully logged in!', 'success')
+                return redirect('home')
+            else:
+                messages.error(request, 'Your email or password is incorrect!', 'danger')
+        return render(request, self.template_name, {'form': form})
+
+
 
 
 class MyLogoutView(LogoutView):
