@@ -93,16 +93,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'KnowYourMoney.accounts.validators.MyUserAttributeSimilarityValidator',
+        'NAME': 'accounts.validators.MyUserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'KnowYourMoney.accounts.validators.MyMinimumLengthValidator',
+        'NAME': 'accounts.validators.MyMinimumLengthValidator',
     },
     {
-        'NAME': 'KnowYourMoney.accounts.validators.MyCommonPasswordValidator',
+        'NAME': 'accounts.validators.MyCommonPasswordValidator',
     },
     {
-        'NAME': 'KnowYourMoney.accounts.validators.MyNumericPasswordValidator',
+        'NAME': 'accounts.validators.MyNumericPasswordValidator',
     },
 # {
 #         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
