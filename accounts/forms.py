@@ -7,6 +7,23 @@ User = get_user_model()
 
 
 class UserRegistrationForm(UserCreationForm):
+    error_messages = {
+        "password_mismatch": ("Hasła nie zgadzają się. Popraw i spróbuj ponownie"),
+    }
+    # password1 = forms.CharField(
+    #     label=("Hasło:"),
+    #     strip=False,
+    #     widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+    #     help_text=password_validation.password_validators_help_text_html(),
+    # )
+    # password2 = forms.CharField(
+    #     label=("Potwierdź hasło:"),
+    #     widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+    #     strip=False,
+    #     help_text=("Wprowadź takie samo hasło jak powyżej, dla potwierdzenia."),
+    # )
+    email = forms.CharField(required=True, widget=forms.EmailInput(attrs={'class': 'validate', }))
+
     class Meta:
         model = User
         fields = ["username", "password1", "password2", "email"]
