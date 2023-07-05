@@ -12,6 +12,21 @@ class UserRegistrationForm(UserCreationForm):
         fields = ["username", "password1", "password2", "email"]
 
 
-class UserLoginForm(forms.Form):
-    username = forms.CharField(label="Login lub Adres E-mail:", max_length=65)
-    password = forms.CharField(label="Hasło:", max_length=65, widget=forms.PasswordInput)
+class UserLoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super(UserLoginForm, self).__init__(*args, **kwargs)
+
+    username = UsernameField(label="Login:", widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': '', 'id': 'hello'}))
+    password = forms.CharField(label="Hasło:", widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': '',
+            'id': 'hi',
+        }))
+    error_messages = {
+        "invalid_login": (
+            "Proszę wpisz prawidłową nazwę użytkownika, email lub hasło. Zwróć uwagę, że "
+            "pola są wrażliwe na wielkość liter."
+        ),
+        "inactive": "To konto jest nieaktywne."}

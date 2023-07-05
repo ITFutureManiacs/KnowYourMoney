@@ -35,7 +35,7 @@ class MyLoginView(View):
         form = self.form_class
         return render(request, self.template_name, {'form': form})
     def post(self, request):
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, data=request.POST)
         # print(form)
         # print(form.is_valid())
         print(form.data)
