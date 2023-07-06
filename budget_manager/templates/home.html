@@ -1,19 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block body %}
+<section>
+
+</section>
 <section style="background-color: #eee;">
   <section style="background-color: #99ccff;">
   <div class="container py-4">
-    <section style="background-color: #99ccff;">
-    <div class="row">
-      <div class="col">
-        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4 ">
-          <ol class="breadcrumb mb-0">
-           <li class="text-center" >Cześć <b>{{user}}</b>! Aktualny bilans Twoich rachunków</li>
-          </ol>
-        </nav>
-      </div>
-    </div>
+    <section style="background-color: #FFFFFF;">
+        <div class="row">
+          <div class="col d-flex align-items-center justify-content-center">
+             Cześć  <b>{{user}}</b>! Aktualny bilans Twoich rachunków
+          </div>
+            <div class="col-auto justify-content-end ">
+              <form action="" method="get">
+                {{currency_filter_form.currency_filter}}
+                <input type="submit" class="d-block btn btn-primary  my-3" value="Zmień walutę">
+              </form>
+            </div>
+        </div>
     </section>
   </div>
   </section>
@@ -29,8 +34,11 @@
             <div class="col-sm-3">
               <p class="mb-0">Przychody</p>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-1">
               <p class="text-muted mb-0"> {{ total_income }}</p>
+            </div>
+            <div class="col-sm-1">
+              <p class="text-muted mb-0">{{displayed_currency.currency_code}}</p>
             </div>
             <div class="col-sm-3">
               <p><a class="btn btn-primary" href="{% url 'income-list' %}" role="button">Zobacz przychody</a></p>
@@ -41,8 +49,11 @@
             <div class="col-sm-3">
               <p class="mb-0">Wydatki</p>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-1">
               <p class="text-muted mb-0">{{ total_expense }}</p>
+            </div>
+            <div class="col-sm-1">
+              <p class="text-muted mb-0">{{displayed_currency.currency_code}}</p>
             </div>
             <div class="col-sm-3">
               <p><a class="btn btn-primary" href="{% url 'expense-filter-list' %}" role="button">Zobacz wydatki</a></p>
@@ -53,8 +64,11 @@
             <div class="col-sm-3">
               <p class="mb-0">Suma</p>
             </div>
-            <div class="col-sm-9">
+            <div class="col-sm-1">
               <p class="text-muted mb-0">{{ total_balance }}</p>
+            </div>
+            <div class="col-sm-1">
+              <p class="text-muted mb-0">{{displayed_currency.currency_code}}</p>
             </div>
           </div>
         </div>
