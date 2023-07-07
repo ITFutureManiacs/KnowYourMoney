@@ -222,7 +222,6 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     form_class = UpdateUserForm
     model = User
     template_name = 'user_update.html'
-    # fields = ['username', 'first_name', 'last_name', 'email']
     success_url = reverse_lazy('user-list')
 
     def get_initial(self):
