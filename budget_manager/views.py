@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Sum
+from django.db.models import Sum, Subquery
 from django.db.models.functions import ExtractMonth
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -7,10 +7,11 @@ from django.views.generic.list import ListView
 from django_filters.views import FilterView
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
+from budget_manager.forms import CurrencyFilter
 
 from .filtersets import ExpenseFilter, IncomeFilter
 import matplotlib.pyplot as plt
-from budget_manager.models import Expense, Source, Category, Income
+from budget_manager.models import Expense, Source, Category, Income, Currency
 
 
 class BalanceView(LoginRequiredMixin, TemplateView):
@@ -18,12 +19,36 @@ class BalanceView(LoginRequiredMixin, TemplateView):
 
     # def get(self, request, *args, **kwargs):
     #     period = self.request.GET.get('period', '')
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        if context["currency_filter_form"].is_valid():
+            print("Valid get form!!")
+        return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
+        currency_filter_form = CurrencyFilter(self.request.GET)
+        if currency_filter_form.data.__len__() is 0:
+            pass
+        else:
+            filtred_currency_pk = currency_filter_form.data["currency_filter"]
+            print(filtred_currency_pk)
+
+        # test = if currency_filter_form.data else None
+        # print()
+        # print(filtred_currency_pk)
+        # print(currency_filter_form)
         total_expense = round(Expense.objects.filter(user=self.request.user).filter(
-            currency__currency_code="PLN").aggregate(Sum("cost", default=0))["cost__sum"], ndigits=2)
+            currency__id=1).aggregate(Sum("cost", default=0))["cost__sum"], ndigits=2) \
+            if  currency_filter_form.data.__len__() is 0 \
+            else round(Expense.objects.filter(user=self.request.user).filter(
+            currency__id=filtred_currency_pk).aggregate(Sum("cost", default=0))["cost__sum"], ndigits=2)
+
         total_income = round(Income.objects.filter(user=self.request.user).filter(
-            currency__currency_code="PLN").aggregate(Sum("amount", default=0))["amount__sum"], ndigits=2)
+            currency__id=1).aggregate(Sum("amount", default=0))["amount__sum"], ndigits=2) \
+            if currency_filter_form.data.__len__() is 0 \
+            else round(Income.objects.filter(user=self.request.user).filter(
+            currency__id=filtred_currency_pk).aggregate(Sum("amount", default=0))["amount__sum"], ndigits=2)
+
         total_balance = round(total_income - total_expense, ndigits=2)
         try:
             fig = plt.figure(figsize=(8, 5))
@@ -40,12 +65,17 @@ class BalanceView(LoginRequiredMixin, TemplateView):
         monthly_expense = Expense.objects.filter(user=self.request.user).annotate(
             month=ExtractMonth('expense_date')).values('month').annotate(total_amount=Sum('cost'))
 
+
+
         context = {
             'total_expense': total_expense,
             'total_income': total_income,
             'total_balance': total_balance,
             'monthly_income': monthly_income,
             'monthly_expense': monthly_expense,
+            "currency_filter_form": currency_filter_form,
+            "displayed_currency": Currency.objects.get(pk=1 if currency_filter_form.data.__len__() is 0 \
+                else filtred_currency_pk)
         }
         return context
 
