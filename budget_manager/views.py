@@ -7,7 +7,7 @@ from django.views.generic.list import ListView
 from django_filters.views import FilterView
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
-from budget_manager.forms import CurrencyFilter
+from budget_manager.forms import CurrencyFilter,UpdateUserForm
 
 from .filtersets import ExpenseFilter, IncomeFilter
 import matplotlib.pyplot as plt
@@ -219,7 +219,16 @@ class UserListView(LoginRequiredMixin, ListView):
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
+    form_class = UpdateUserForm
     model = User
     template_name = 'user_update.html'
-    fields = ['username', 'first_name', 'last_name', 'email']
+    # fields = ['username', 'first_name', 'last_name', 'email']
     success_url = reverse_lazy('user-list')
+
+    def get_initial(self):
+        initial_values = super().get_initial()
+        initial_values["username"] = self.request.user.username
+        initial_values["first_name"] = self.request.user.first_name
+        initial_values["last_name"] = self.request.user.last_name
+        initial_values['"email"'] = self.request.user.email
+        return initial_values

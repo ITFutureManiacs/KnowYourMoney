@@ -26,27 +26,17 @@
       <div class="col-lg-4">
         <div class="card mb-4">
           <div class="card-body text-center">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-              class="rounded-circle img-fluid" style="width: 150px;">
+            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar img-circle img-thumbnail" alt="avatar">
             <h5 class="my-3">{{ user.username }}</h5>
-<!--             <a href="{% url 'home' %}">Edytuj profil</a>-->
                   {% block content %}
-                    <form method="POST" action="{% url 'user-update' user.id %}">
-                    {% csrf_token %}
+                    <form method="GET" action="{% url 'user-update' user.id %}">
                     {{ form.as_p }}
                     <button type="submit" class="btn btn-primary btn-block">Edytuj profil</button>
                     </form>
                   {% endblock %}
-
-
           </div>
         </div>
-        <div
           </div>
-          </div>
-
-       </div>
-
         <div class="col-lg-8">
         <div class="card mb-4">
           <div class="card-body">
@@ -80,10 +70,6 @@
             </div>
           </div>
         </div>
-
-      </div>
-    </div>
-  </div>
 </section>
 
 {% endblock body %}
