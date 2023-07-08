@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 from budget_manager.models import Currency, Income, Expense, Source, Category
 
 
@@ -27,7 +28,7 @@ class UpdateUserForm(forms.ModelForm):
         widget=forms.EmailInput(attrs={'class': 'form-control'}))
 
     class Meta:
-        model = Income
+        model = User
         fields =["username","first_name", "last_name", "email"]
 
 
