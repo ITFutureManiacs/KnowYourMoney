@@ -1,13 +1,7 @@
 import datetime
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
-
-
-
-User._meta.get_field('email')._unique = True
-User._meta.get_field('email')._error_messages = {"unique": "Użytkownik z tym adresem email istnieje"}
 
 
 class Source(models.Model):
