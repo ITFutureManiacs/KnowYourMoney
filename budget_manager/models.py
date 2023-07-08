@@ -3,14 +3,12 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
-from django.utils.translation import gettext_lazy as _
+
 
 
 User._meta.get_field('email')._unique = True
 User._meta.get_field('email')._error_messages = {"unique": "Użytkownik z tym adresem email istnieje"}
 
-# class User(User):
-#     email = models.EmailField(_("email address"), blank=True, unique=True)
 
 class Source(models.Model):
     name = models.CharField(max_length=50)

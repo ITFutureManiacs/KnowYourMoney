@@ -7,7 +7,7 @@ from django.views.generic.list import ListView
 from django_filters.views import FilterView
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
-from budget_manager.forms import CurrencyFilter,UpdateUserForm
+from budget_manager.forms import CurrencyFilter,UpdateUserForm,UpdateIncomeForm
 
 from .filtersets import ExpenseFilter, IncomeFilter
 import matplotlib.pyplot as plt
@@ -199,11 +199,17 @@ class IncomeListView(LoginRequiredMixin, FilterView):
 
 
 class IncomeUpdateView(LoginRequiredMixin, UpdateView):
+    form_class = UpdateIncomeForm
     model = Income
     template_name = 'income_update.html'
-    fields = ['amount', 'source', 'income_date', 'currency']
     success_url = reverse_lazy('income-list')
     context_object_name = 'income'
+
+    def get_form_kwargs(self):
+        kwargs = super(IncomeUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user.username
+        return kwargs
+
 
 
 class IncomeDeleteView(LoginRequiredMixin, DeleteView):
