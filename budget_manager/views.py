@@ -8,6 +8,7 @@ from django_filters.views import FilterView
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from budget_manager.forms import CurrencyFilter, UpdateUserForm, UpdateIncomeForm, UpdateExpenseForm
+from django import forms
 
 from .filtersets import ExpenseFilter, IncomeFilter
 import matplotlib.pyplot as plt
@@ -97,6 +98,7 @@ class ExpenseCreateView(LoginRequiredMixin, CreateView):
         form = super(ExpenseCreateView, self).get_form(*args, **kwargs)
         form.fields['category'].queryset = Category.objects.filter(user=self.request.user) | \
                                            Category.objects.filter(user=None)
+        form.fields['expense_date'].widget = forms.widgets.DateInput(attrs={'type': 'date'})
         field_labels = {'name': 'Nazwa',
                         'cost': 'Koszt',
                         'expense_date': 'Data wydatku',
@@ -181,6 +183,7 @@ class IncomeCreateView(LoginRequiredMixin, CreateView):
         form = super(IncomeCreateView, self).get_form(*args, **kwargs)
         form.fields['source'].queryset = Source.objects.filter(user=self.request.user) | \
                                          Source.objects.filter(user=None)
+        form.fields['income_date'].widget = forms.widgets.DateInput(attrs={'type': 'date'})
 
         field_labels = {'amount': 'Wartość',
                         'income_date': 'Data przychodu',
