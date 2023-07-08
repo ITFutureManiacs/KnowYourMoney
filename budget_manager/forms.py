@@ -1,5 +1,5 @@
 from django import forms
-from budget_manager.models import Currency, Income, Expense, Source
+from budget_manager.models import Currency, Income, Expense, Source, Category
 
 
 class CurrencyFilter(forms.ModelForm):
@@ -54,7 +54,17 @@ class UpdateExpenseForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.user = user
+        self.fields['currency'].label = "Waluta:"
+        self.fields['currency'].queryset = Currency.objects.all()
+        self.fields['currency'].empty_label = "Wybierz Walutę"
+        self.fields['category'].label = "Kategoria:"
+        self.fields['category'].queryset = Category.objects.filter(user=self.user) | Category.objects.filter(user=None)
+        self.fields['category'].empty_label = "Wybierz Kategorię"
+
+    name = forms.CharField(label= "Nazwa:")
+    cost = forms.DecimalField(label="Kwota:")
+    expense_date = forms.DateField(label="Data wydatku:", widget=forms.widgets.DateInput(attrs={'type': 'date'}))
 
     class Meta:
         model = Expense
-        fields = ["name", "cost", "expense_date", "user", "currency", "category"]
+        fields = ["name", "cost", "expense_date", "currency", "category"]
