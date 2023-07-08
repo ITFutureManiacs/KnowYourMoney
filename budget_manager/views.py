@@ -13,6 +13,18 @@ import matplotlib.pyplot as plt
 from budget_manager.models import Expense, Source, Category, Income
 
 
+def create_plt(*args):
+    try:
+        fig = plt.figure(figsize=(8, 5))
+        plt.bar(['Wydatki', 'Przychody'], args, color=['red', 'green'], width=0.4)
+        plt.xlabel('Rodzaj')
+        plt.ylabel('Wartość')
+        plt.title('Bilans finansów')
+        plt.savefig('budget_manager/static/budget_manager/expense.jpg')
+    except TypeError:
+        print('Brak danych')
+
+
 class BalanceView(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
 
@@ -25,18 +37,10 @@ class BalanceView(LoginRequiredMixin, TemplateView):
         total_income = round(Income.objects.filter(user=self.request.user).filter(
             currency__currency_code="PLN").aggregate(Sum("amount", default=0))["amount__sum"], ndigits=2)
         total_balance = round(total_income - total_expense, ndigits=2)
-        try:
-            fig = plt.figure(figsize=(8, 5))
-            plt.bar(['Wydatki', 'Przychody'], [total_expense, total_income], color=['red', 'green'], width=0.4)
-            plt.xlabel('Rodzaj')
-            plt.ylabel('Wartość')
-            plt.title('Bilans finansów')
-            plt.savefig('budget_manager/static/budget_manager/expense.jpg')
-        except TypeError:
-            print('Brak danych')
 
         monthly_income = Income.objects.filter(user=self.request.user).annotate(
             month=ExtractMonth('income_date')).values('month').annotate(total_amount=Sum('amount'))
+        print(monthly_income)
         monthly_expense = Expense.objects.filter(user=self.request.user).annotate(
             month=ExtractMonth('expense_date')).values('month').annotate(total_amount=Sum('cost'))
 
@@ -47,6 +51,9 @@ class BalanceView(LoginRequiredMixin, TemplateView):
             'monthly_income': monthly_income,
             'monthly_expense': monthly_expense,
         }
+        create_plt(total_expense, total_income)
+        print(dir(monthly_income))
+        print(monthly_income.values)
         return context
 
 
