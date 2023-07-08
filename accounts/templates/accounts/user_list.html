@@ -1,13 +1,5 @@
 {% extends 'base.html' %}
-
-{% block body %}
-{% for user in user_list %}
-    {% for colname in user.column_set.all  %}
-        <p>{{colname}}</p>
-    {% endfor %}
-{% endfor %}
-
-
+{%block body %}
 <section style="background-color: #eee;">
   <section style="background-color: #99ccff;">
   <div class="container py-5">
@@ -21,7 +13,8 @@
         </nav>
       </div>
     </div>
-<section style="background-color: #99ccff;">
+    </section>
+    <section style="background-color: #99ccff;">
     <div class="row">
       <div class="col-lg-4">
         <div class="card mb-4">
@@ -70,6 +63,9 @@
             </div>
           </div>
         </div>
+    </div>
+    </section>
+  </div>
+  </section>
 </section>
-
 {% endblock body %}
