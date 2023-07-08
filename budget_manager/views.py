@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Sum, Subquery
+from django.db.models import Sum
 from django.db.models.functions import ExtractMonth
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -7,7 +7,7 @@ from django.views.generic.list import ListView
 from django_filters.views import FilterView
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
-from budget_manager.forms import CurrencyFilter,UpdateUserForm,UpdateIncomeForm
+from budget_manager.forms import CurrencyFilter, UpdateUserForm, UpdateIncomeForm, UpdateExpenseForm
 
 from .filtersets import ExpenseFilter, IncomeFilter
 import matplotlib.pyplot as plt
@@ -120,11 +120,16 @@ class ExpenseList(LoginRequiredMixin, FilterView):
 
 
 class ExpenseUpdateView(LoginRequiredMixin, UpdateView):
+    form_class = UpdateExpenseForm
     model = Expense
     template_name = 'expenses_update.html'
-    fields = ['name', 'cost', 'expense_date', 'currency', 'category']
     success_url = reverse_lazy('expense-filter-list')
     context_object_name = 'expense'
+
+    def get_form_kwargs(self):
+        kwargs = super(ExpenseUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 class ExpenseDeleteView(LoginRequiredMixin, DeleteView):
@@ -207,9 +212,8 @@ class IncomeUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_form_kwargs(self):
         kwargs = super(IncomeUpdateView, self).get_form_kwargs()
-        kwargs['user'] = self.request.user.username
+        kwargs['user'] = self.request.user
         return kwargs
-
 
 
 class IncomeDeleteView(LoginRequiredMixin, DeleteView):
