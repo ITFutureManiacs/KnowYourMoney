@@ -63,7 +63,8 @@ class ExpenseCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_form(self, *args, **kwargs):
-        """Displays only categories made by currently logged user"""
+        """Displays only categories made by currently logged user.
+        Widget with calendar for date"""
         form = super(ExpenseCreateView, self).get_form(*args, **kwargs)
 
         form.fields['category'].queryset = Category.objects.filter(user=self.request.user) | \
@@ -150,7 +151,8 @@ class IncomeCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_form(self, *args, **kwargs):
-        """Displays only categories made by currently logged user"""
+        """Displays only categories made by currently logged user
+        Widget with calendar for date"""
         form = super(IncomeCreateView, self).get_form(*args, **kwargs)
 
         form.fields['source'].queryset = Source.objects.filter(user=self.request.user) | \
