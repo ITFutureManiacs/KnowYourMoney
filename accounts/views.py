@@ -1,12 +1,18 @@
-from django.shortcuts import render, redirect
-from django.views import View
-from accounts import forms
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.views import LoginView,LogoutView, PasswordResetView, PasswordChangeView,PasswordResetDoneView,\
-    PasswordResetConfirmView,PasswordChangeDoneView,PasswordResetCompleteView
-from accounts.forms import UserLoginForm
-from accounts.backends import EmailOrLoginUsernameAuthenticationBackend as Email_Login_Backend
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LogoutView, PasswordResetView, PasswordChangeView, PasswordResetDoneView,\
+    PasswordResetConfirmView, PasswordChangeDoneView, PasswordResetCompleteView
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic import ListView, UpdateView
+
+from KnowYourMoney import settings
+from accounts import forms
+from accounts.backends import EmailOrLoginUsernameAuthenticationBackend as Email_Login_Backend
+from accounts.models import CustomUser
+from accounts.forms import UserLoginForm, UpdateUserForm
 
 
 class RegistrationView(View):
@@ -34,17 +40,14 @@ class MyLoginView(View):
     def get(self, request):
         form = self.form_class
         return render(request, self.template_name, {'form': form})
+
     def post(self, request):
         form = self.form_class(request.POST, data=request.POST)
-        # print(form)
-        # print(form.is_valid())
-        print(form.data)
-        print(form._errors)
-        print(form.is_bound)
+
         if form.is_valid():
             cd = form.cleaned_data
             user = Email_Login_Backend.authenticate(request, username=cd['username'], password=cd['password'])
-            print(user)
+
             if user is not None:
                 login(request, user)
                 messages.success(request, 'You have successfully logged in!', 'success')
@@ -52,8 +55,6 @@ class MyLoginView(View):
             else:
                 messages.error(request, 'Your email or password is incorrect!', 'danger')
         return render(request, self.template_name, {'form': form})
-
-
 
 
 class MyLogoutView(LogoutView):
@@ -82,3 +83,24 @@ class MyPasswordChangeDoneView(PasswordChangeDoneView):
 
 class MyPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = "accounts/password_reset_complete.html"
+
+
+class UserListView(LoginRequiredMixin, ListView):
+    model = CustomUser
+    template_name = 'accounts/user_list.html'
+    fields = ['username', 'first_name', 'last_name', 'email']
+
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    form_class = UpdateUserForm
+    model = CustomUser
+    template_name = 'accounts/user_update.html'
+    success_url = reverse_lazy('user-list')
+
+    def get_initial(self):
+        initial_values = super().get_initial()
+        initial_values["username"] = self.request.user.username
+        initial_values["first_name"] = self.request.user.first_name
+        initial_values["last_name"] = self.request.user.last_name
+        initial_values['"email"'] = self.request.user.email
+        return initial_values
