@@ -100,7 +100,10 @@ class ExpenseUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('expense-filter-list')
     context_object_name = 'expense'
 
+
     def get_form_kwargs(self):
+        """Modifying content of kwargs dictionary which is sent to __init__(** kwargs) in forms.UpdateExpenseForm.
+        Modification contains object of actually logged user under the key value: 'user'"""
         kwargs = super(ExpenseUpdateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
@@ -189,6 +192,8 @@ class IncomeUpdateView(LoginRequiredMixin, UpdateView):
     context_object_name = 'income'
 
     def get_form_kwargs(self):
+        """Modifying content of kwargs dictionary which is sent to __init__(** kwargs) in forms.UpdateExpenseForm.
+        Modification contains object of actually logged user under the key value: 'user'"""
         kwargs = super(IncomeUpdateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
