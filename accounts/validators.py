@@ -1,8 +1,15 @@
 from django.utils.translation import ngettext
 from django.contrib.auth.password_validation import UserAttributeSimilarityValidator, CommonPasswordValidator, \
-    NumericPasswordValidator,MinimumLengthValidator
+    NumericPasswordValidator, MinimumLengthValidator
+from django.contrib.auth.models import UnicodeUsernameValidator
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
+
+
+class MyUnicodeUsernameValidator(UnicodeUsernameValidator):
+    message = (
+        "Podaj prawidłowy login. Może składać się z liter, "
+        "cyfr i znaków: @/./+/-/_")
 
 
 class MyUserAttributeSimilarityValidator(UserAttributeSimilarityValidator):
@@ -13,7 +20,7 @@ class MyUserAttributeSimilarityValidator(UserAttributeSimilarityValidator):
 
 class MyCommonPasswordValidator(CommonPasswordValidator):
     def get_help_text(self):
-        return ("Twoje hasło nie może być powszechnie używanym hasłem.")
+        return "Twoje hasło nie może być powszechnie używanym hasłem."
 
     def validate(self, password, user=None):
         if password.lower().strip() in self.passwords:
@@ -25,7 +32,7 @@ class MyCommonPasswordValidator(CommonPasswordValidator):
 
 class MyNumericPasswordValidator(NumericPasswordValidator):
     def get_help_text(self):
-        return ("Twoje hasło nie może składać się tylko z cyfr.")
+        return "Twoje hasło nie może składać się tylko z cyfr."
 
     def validate(self, password, user=None):
         if password.isdigit():

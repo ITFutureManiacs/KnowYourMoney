@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 {% block body %}
-
-
-        <div class="container bootstrap snippets bootdey">
+<div class="container bootstrap snippets bootdey">
     <h1 class="text-primary">Edycja Profilu</h1>
       <hr>
-	<div class="row">
+    <div class="row">
       <!-- left column -->
       <div class="col-md-3">
         <div class="text-center">
@@ -29,13 +27,13 @@
                     {% csrf_token %}
                     {{ form.as_p }}
                     <button type="submit" class="btn btn-primary btn-block">Aktualizuj</button>
-                    </form>
+              </form>
             {% endblock %}
 
       </div>
-  </div>
+    </div>
+    <hr>
 </div>
-<hr>
 
 
 {% endblock body %}

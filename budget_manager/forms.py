@@ -1,6 +1,6 @@
 from django import forms
-from django.contrib.auth.models import User
 from budget_manager.models import Currency, Income, Expense, Source, Category
+
 
 
 class CurrencyFilter(forms.ModelForm):
@@ -9,27 +9,6 @@ class CurrencyFilter(forms.ModelForm):
     class Meta:
         model = Currency
         exclude = ["currency_code", "name"]
-
-
-class UpdateUserForm(forms.ModelForm):
-
-    username = forms.CharField(
-        label="Login:",
-        widget=forms.TextInput(attrs={'class': 'form-control'}
-                               ))
-    first_name = forms.CharField(
-        label="Imię:",
-        widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_name = forms.CharField(
-        label="Nazwisko:",
-        widget=forms.TextInput(attrs={'class': 'form-control'}))
-    email = forms.CharField(
-        label="Adres Email:",
-        widget=forms.EmailInput(attrs={'class': 'form-control'}))
-
-    class Meta:
-        model = User
-        fields =["username","first_name", "last_name", "email"]
 
 
 class UpdateIncomeForm(forms.ModelForm):
@@ -69,3 +48,4 @@ class UpdateExpenseForm(forms.ModelForm):
     class Meta:
         model = Expense
         fields = ["name", "cost", "expense_date", "currency", "category"]
+
