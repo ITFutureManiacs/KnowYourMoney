@@ -5,9 +5,9 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django_filters.views import FilterView
 from django.urls import reverse_lazy
-
+from django import forms
 from .utils import create_plt
-from budget_manager.forms import CurrencyFilter
+from budget_manager.forms import CurrencyFilter, UpdateIncomeForm, UpdateExpenseForm
 from .filtersets import ExpenseFilter, IncomeFilter
 from budget_manager.models import Expense, Source, Category, Income, Currency
 
@@ -60,10 +60,14 @@ class ExpenseCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_form(self, *args, **kwargs):
-        """Displays only categories made by currently logged user"""
+        """Displays only categories made by currently logged user.
+        Widget with calendar for date"""
         form = super(ExpenseCreateView, self).get_form(*args, **kwargs)
-        form.fields['category'].queryset = Category.objects.filter(
-            user=self.request.user) | Category.objects.filter(user=None)
+
+        form.fields['category'].queryset = Category.objects.filter(user=self.request.user) | \
+                                           Category.objects.filter(user=None)
+        form.fields['expense_date'].widget = forms.widgets.DateInput(attrs={'type': 'date'})
+
         field_labels = {'name': 'Nazwa',
                         'cost': 'Koszt',
                         'expense_date': 'Data wydatku',
@@ -87,11 +91,19 @@ class ExpenseList(LoginRequiredMixin, FilterView):
 
 
 class ExpenseUpdateView(LoginRequiredMixin, UpdateView):
+    form_class = UpdateExpenseForm
     model = Expense
     template_name = 'expenses_update.html'
-    fields = ['name', 'cost', 'expense_date', 'currency', 'category']
     success_url = reverse_lazy('expense-filter-list')
     context_object_name = 'expense'
+
+
+    def get_form_kwargs(self):
+        """Modifying content of kwargs dictionary which is sent to __init__(** kwargs) in forms.UpdateExpenseForm.
+        Modification contains object of actually logged user under the key value: 'user'"""
+        kwargs = super(ExpenseUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 class ExpenseDeleteView(LoginRequiredMixin, DeleteView):
@@ -139,10 +151,14 @@ class IncomeCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_form(self, *args, **kwargs):
-        """Displays only categories made by currently logged user"""
+        """Displays only categories made by currently logged user
+        Widget with calendar for date"""
         form = super(IncomeCreateView, self).get_form(*args, **kwargs)
-        form.fields['source'].queryset = Source.objects.filter(
-            user=self.request.user) | Source.objects.filter(user=None)
+
+        form.fields['source'].queryset = Source.objects.filter(user=self.request.user) | \
+                                         Source.objects.filter(user=None)
+        form.fields['income_date'].widget = forms.widgets.DateInput(attrs={'type': 'date'})
+
 
         field_labels = {'amount': 'Wartość',
                         'income_date': 'Data przychodu',
@@ -166,11 +182,18 @@ class IncomeListView(LoginRequiredMixin, FilterView):
 
 
 class IncomeUpdateView(LoginRequiredMixin, UpdateView):
+    form_class = UpdateIncomeForm
     model = Income
     template_name = 'income_update.html'
-    fields = ['amount', 'source', 'income_date', 'currency']
     success_url = reverse_lazy('income-list')
     context_object_name = 'income'
+
+    def get_form_kwargs(self):
+        """Modifying content of kwargs dictionary which is sent to __init__(** kwargs) in forms.UpdateExpenseForm.
+        Modification contains object of actually logged user under the key value: 'user'"""
+        kwargs = super(IncomeUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 class IncomeDeleteView(LoginRequiredMixin, DeleteView):
