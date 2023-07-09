@@ -5,7 +5,7 @@ from accounts.forms import UserRegistrationForm
 
 
 @pytest.fixture
-def fixture_1():
+def fix_valid_user():
     user = {'username': 'testUsername',
             'password1': 'TestDjangoPass',
             'password2': 'TestDjangoPass',
@@ -14,25 +14,25 @@ def fixture_1():
 
 
 @pytest.mark.django_db
-def test_user_registration_success(fixture_1):
-    form = UserRegistrationForm(fixture_1)
+def test_user_registration_success(fix_valid_user):
+    form = UserRegistrationForm(fix_valid_user)
     result = form.is_valid()
     assert result is True
 
 
 @pytest.mark.django_db
-def test_user_registration_duplicated_username(fixture_1):
+def test_user_registration_duplicated_username(fix_valid_user):
     CustomUser.objects.create_user(username='testUsername', email='dorothy@username.com')
-    form = UserRegistrationForm(fixture_1)
+    form = UserRegistrationForm(fix_valid_user)
     result = form.is_valid()
     assert result is False
     assert form.errors['username'][0] == 'Podany login jest już zajęty.'
 
 
 @pytest.mark.django_db
-def test_user_registration_duplicated_email(fixture_1):
+def test_user_registration_duplicated_email(fix_valid_user):
     CustomUser.objects.create_user(username='Dorothy', email='test@username.com')
-    form = UserRegistrationForm(fixture_1)
+    form = UserRegistrationForm(fix_valid_user)
     result = form.is_valid()
     assert result is False
     assert form.errors['email'][0] == 'Podany adres email już istnieje'
