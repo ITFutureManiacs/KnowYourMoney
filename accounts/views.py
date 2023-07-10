@@ -8,7 +8,6 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, UpdateView
 
-from KnowYourMoney import settings
 from accounts import forms
 from accounts.backends import EmailOrLoginUsernameAuthenticationBackend as Email_Login_Backend
 from accounts.models import CustomUser
