@@ -1,9 +1,9 @@
 import datetime
 import pytest
-
+from decimal import InvalidOperation
 from accounts.models import CustomUser
 from budget_manager.models import Currency, Category, Expense, Source, Income
-
+from django.db import transaction
 
 @pytest.fixture
 def new_admin_factory(db):
@@ -208,6 +208,12 @@ def income_factory(db, new_user, new_source, new_currency):
 def new_income(db, income_factory):
     return income_factory(amount=4000)
 
+
 # @pytest.fixture - jak się dostać do tego błędu?!
-# def new_expense_higher_value(db, expense_factory):
-#     return expense_factory(name='potato', cost=123456)
+@pytest.fixture
+def new_expense_higher_value(db, expense_factory):
+    try:
+        with transaction.atomic():
+            return expense_factory(name='potato', cost=123456)
+    except InvalidOperation:
+        return "Too much digits. Including decimals."
