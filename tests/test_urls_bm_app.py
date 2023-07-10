@@ -3,7 +3,19 @@ from django.test import Client
 from django.contrib.auth import get_user_model
 from budget_manager.models import Expense, Income, Currency, Source, Category
 
+@pytest.mark.django_db
+def test_urls_response_code_required_logged_income_conftest(client, user_logged_db_populated):
+    # Action
+    response_income_create = client.get('/income/create/')
+    response_income_view = client.get('/income/view/')
+    response_income_update = client.get(f'/income/{user_logged_db_populated["new_income"].id}/update/')
+    response_income_delete = client.get(f'/income/{user_logged_db_populated["new_income"].id}/delete/')
 
+    # Assert
+    assert response_income_create.status_code == 200
+    assert response_income_view.status_code == 200
+    assert response_income_update.status_code == 200
+    assert response_income_delete.status_code == 200
 @pytest.mark.django_db
 def test_urls_response_code_required_logged_income():
     # Arrange
