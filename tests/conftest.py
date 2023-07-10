@@ -47,6 +47,11 @@ def new_user(db, new_user_factory):
 
 
 @pytest.fixture
+def same_email_user(db, new_user_factory):
+    return new_user_factory(username='Foo', email='test@username.com')
+
+
+@pytest.fixture
 def currency_factory(db):
     def create_currency(
         name: str,
@@ -110,13 +115,6 @@ def expense_factory(db, new_user, new_category, new_currency):
 def new_expense(db, expense_factory):
     return expense_factory(name='potato', cost=15)
 
-@pytest.fixture
-def new_expense_higher_value(db, expense_factory):
-    return expense_factory(name='potato', cost=-5)
-
-
-@pytest.fixture()
-def fix_expense_data(db, new_user):
-    test_category = Category.objects.create(name='AGD', user=new_user)
-    test_currency = Currency.objects.create(name='Złoty', currency_code='PLN')
-    return new_user, test_currency, test_category
+# @pytest.fixture - jak się dostać do tego błędu?!
+# def new_expense_higher_value(db, expense_factory):
+#     return expense_factory(name='potato', cost=123456)

@@ -1,6 +1,5 @@
 import pytest
 
-from accounts.models import CustomUser
 from accounts.forms import UserRegistrationForm
 
 
@@ -12,8 +11,7 @@ def test_user_registration_success(fix_valid_register_dict):
 
 
 @pytest.mark.django_db
-def test_user_registration_duplicated_username(fix_valid_register_dict):
-    CustomUser.objects.create_user(username='testUsername', email='dorothy@username.com')
+def test_user_registration_duplicated_username(fix_valid_register_dict, new_user):
     form = UserRegistrationForm(fix_valid_register_dict)
     result = form.is_valid()
     assert result is False
@@ -21,8 +19,7 @@ def test_user_registration_duplicated_username(fix_valid_register_dict):
 
 
 @pytest.mark.django_db
-def test_user_registration_duplicated_email(fix_valid_register_dict):
-    CustomUser.objects.create_user(username='Dorothy', email='test@username.com')
+def test_user_registration_duplicated_email(fix_valid_register_dict, same_email_user):
     form = UserRegistrationForm(fix_valid_register_dict)
     result = form.is_valid()
     assert result is False
