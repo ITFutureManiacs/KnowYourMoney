@@ -18,6 +18,7 @@ def test_urls_response_code_password():
     assert response_password_reset_token.status_code == 200
     assert response_password_reset_complete.status_code == 200
 
+
 def test_urls_response_code_without_being_logged():
     # Arrange:
     client = Client()
