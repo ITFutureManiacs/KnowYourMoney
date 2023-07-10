@@ -63,7 +63,7 @@ def new_user(db, new_user_factory):
 
 @pytest.fixture
 def new_admin(db, new_admin_factory):
-    return new_user_factory(username='testAdmin', password='TestDjangoPass')
+    return new_admin_factory(username='testAdmin', password='TestDjangoPass')
 
 
 @pytest.fixture
