@@ -68,6 +68,8 @@ def test_urls_response_code_required_logged_home_category_source():
 
     test_user = model.objects.create(username="Mateusz", password="mojehaslo1234")
 
+    test_currency = Currency.objects.create(name="Złoty", currency_code="PLN")
+
     client = Client()
     client.force_login(test_user)
 
