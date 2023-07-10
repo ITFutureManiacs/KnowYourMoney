@@ -54,9 +54,13 @@ This is an application to control your home budget. It allows user to add income
   - Django == 4.2.2
   - HTML
   - Bootstrap
-# How does it look like:
-![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/122223926/06bb13c1-6261-449b-a527-89871fb7976e)
-![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/122223926/564560ea-525e-4320-b847-cbd4d3a7bbb9)
-![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/122223926/b65c22ff-cd6b-4658-9df8-e4d5c51497ee)
+# How does it look like:!
+
+![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/136881676/52f34dee-8a66-4915-bd4a-579efa80b5de)
+![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/136881676/9a08464b-6f6f-4ca8-9928-7d39f48c2807)
+![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/136881676/c562a730-4115-47be-9a47-c16eace985f0)
+![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/136881676/17581f7f-b61b-40c6-8275-6fe662caa004)
+![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/136881676/143d1b62-c12e-45cf-9727-28de0dd008a6)
+
 
 
