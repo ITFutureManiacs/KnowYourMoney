@@ -2,7 +2,6 @@ from django import forms
 from budget_manager.models import Currency, Income, Expense, Source, Category
 
 
-
 class CurrencyFilter(forms.ModelForm):
     currency_filter = forms.ModelChoiceField(queryset=Currency.objects.all(), initial="Zmień walutę")
 
