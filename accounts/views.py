@@ -1,30 +1,42 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LogoutView, PasswordResetView, PasswordChangeView, PasswordResetDoneView,\
-    PasswordResetConfirmView, PasswordChangeDoneView, PasswordResetCompleteView
+from django.contrib.auth.views import (
+    LogoutView,
+    PasswordResetView,
+    PasswordChangeView,
+    PasswordResetDoneView,
+    PasswordResetConfirmView,
+    PasswordChangeDoneView,
+    PasswordResetCompleteView,
+)
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, UpdateView
 
 from accounts import forms
-from accounts.backends import EmailOrLoginUsernameAuthenticationBackend as Email_Login_Backend
+from accounts.backends import (
+    EmailOrLoginUsernameAuthenticationBackend as Email_Login_Backend,
+)
 from accounts.models import CustomUser
 from accounts.forms import UserLoginForm, UpdateUserForm
 
 
 class RegistrationView(View):
-
     def get(self, request):
-        return render(request, template_name="accounts/registration.html", context={"form": forms.UserRegistrationForm()})
+        return render(
+            request,
+            template_name="accounts/registration.html",
+            context={"form": forms.UserRegistrationForm()},
+        )
 
     def post(self, request, *args, **kwargs):
         form = forms.UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password1")
             user = authenticate(username=username, password=password)
             login(request, user)
             return redirect("home")
@@ -38,22 +50,26 @@ class MyLoginView(View):
 
     def get(self, request):
         form = self.form_class
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {"form": form})
 
     def post(self, request):
         form = self.form_class(request.POST, data=request.POST)
 
         if form.is_valid():
             cd = form.cleaned_data
-            user = Email_Login_Backend.authenticate(request, username=cd['username'], password=cd['password'])
+            user = Email_Login_Backend.authenticate(
+                request, username=cd["username"], password=cd["password"]
+            )
 
             if user is not None:
                 login(request, user)
-                messages.success(request, 'You have successfully logged in!', 'success')
-                return redirect('home')
+                messages.success(request, "You have successfully logged in!", "success")
+                return redirect("home")
             else:
-                messages.error(request, 'Your email or password is incorrect!', 'danger')
-        return render(request, self.template_name, {'form': form})
+                messages.error(
+                    request, "Your email or password is incorrect!", "danger"
+                )
+        return render(request, self.template_name, {"form": form})
 
 
 class MyLogoutView(LogoutView):
@@ -86,15 +102,15 @@ class MyPasswordResetCompleteView(PasswordResetCompleteView):
 
 class UserListView(LoginRequiredMixin, ListView):
     model = CustomUser
-    template_name = 'accounts/user_list.html'
-    fields = ['username', 'first_name', 'last_name', 'email']
+    template_name = "accounts/user_list.html"
+    fields = ["username", "first_name", "last_name", "email"]
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     form_class = UpdateUserForm
     model = CustomUser
-    template_name = 'accounts/user_update.html'
-    success_url = reverse_lazy('user-list')
+    template_name = "accounts/user_update.html"
+    success_url = reverse_lazy("user-list")
 
     def get_initial(self):
         initial_values = super().get_initial()
