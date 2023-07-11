@@ -8,7 +8,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -17,50 +16,162 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True)),
-                ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50, unique=True)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Currency',
+            name="Currency",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=20)),
-                ('currency_code', models.CharField(max_length=10)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=20)),
+                ("currency_code", models.CharField(max_length=10)),
             ],
         ),
         migrations.CreateModel(
-            name='Source',
+            name="Source",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Income',
+            name="Income",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.DecimalField(decimal_places=2, max_digits=7, validators=[django.core.validators.MinValueValidator(0.01, 'Wartość musi być większa od 0')])),
-                ('income_date', models.DateField(default=datetime.date.today)),
-                ('currency', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='budget_manager.currency')),
-                ('source', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='budget_manager.source')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "amount",
+                    models.DecimalField(
+                        decimal_places=2,
+                        max_digits=7,
+                        validators=[
+                            django.core.validators.MinValueValidator(
+                                0.01, "Wartość musi być większa od 0"
+                            )
+                        ],
+                    ),
+                ),
+                ("income_date", models.DateField(default=datetime.date.today)),
+                (
+                    "currency",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        to="budget_manager.currency",
+                    ),
+                ),
+                (
+                    "source",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        to="budget_manager.source",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Expense',
+            name="Expense",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('cost', models.DecimalField(decimal_places=2, max_digits=7, validators=[django.core.validators.MinValueValidator(0.01, 'Wartość musi być większa od 0')])),
-                ('expense_date', models.DateField(default=datetime.date.today)),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='budget_manager.category')),
-                ('currency', models.ForeignKey(default=False, on_delete=django.db.models.deletion.DO_NOTHING, to='budget_manager.currency')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                (
+                    "cost",
+                    models.DecimalField(
+                        decimal_places=2,
+                        max_digits=7,
+                        validators=[
+                            django.core.validators.MinValueValidator(
+                                0.01, "Wartość musi być większa od 0"
+                            )
+                        ],
+                    ),
+                ),
+                ("expense_date", models.DateField(default=datetime.date.today)),
+                (
+                    "category",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        to="budget_manager.category",
+                    ),
+                ),
+                (
+                    "currency",
+                    models.ForeignKey(
+                        default=False,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        to="budget_manager.currency",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

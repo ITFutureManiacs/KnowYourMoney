@@ -1,6 +1,10 @@
 from django.utils.translation import ngettext
-from django.contrib.auth.password_validation import UserAttributeSimilarityValidator, CommonPasswordValidator, \
-    NumericPasswordValidator, MinimumLengthValidator
+from django.contrib.auth.password_validation import (
+    UserAttributeSimilarityValidator,
+    CommonPasswordValidator,
+    NumericPasswordValidator,
+    MinimumLengthValidator,
+)
 from django.contrib.auth.models import UnicodeUsernameValidator
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
@@ -8,14 +12,15 @@ from django.utils.translation import gettext as _
 
 class MyUnicodeUsernameValidator(UnicodeUsernameValidator):
     message = (
-        "Podaj prawidłowy login. Może składać się z liter, "
-        "cyfr i znaków: @/./+/-/_")
+        "Podaj prawidłowy login. Może składać się z liter, " "cyfr i znaków: @/./+/-/_"
+    )
 
 
 class MyUserAttributeSimilarityValidator(UserAttributeSimilarityValidator):
     def get_help_text(self):
         return (
-            "Twoje hasło nie może być zbyt podobne do informacji osobistych(np. loginu)")
+            "Twoje hasło nie może być zbyt podobne do informacji osobistych(np. loginu)"
+        )
 
 
 class MyCommonPasswordValidator(CommonPasswordValidator):
