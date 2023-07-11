@@ -5,30 +5,6 @@ from accounts.models import CustomUser
 from budget_manager.models import Currency, Category, Expense, Source, Income
 from django.db import transaction
 
-@pytest.fixture
-def new_admin_factory(db):
-    def create_app_admin(
-        username: str,
-        password: str = None,
-        first_name: str = 'firstname',
-        last_name: str = 'lastname',
-        email: str = 'test@mail.com',
-        is_staff: str = True,
-        is_superuser: str = True,
-        is_active: str = True
-    ):
-        admin = CustomUser.objects.create_user(
-            username=username,
-            password=password,
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            is_staff=is_staff,
-            is_superuser=is_superuser,
-            is_active=is_active,
-        )
-        return admin
-    return create_app_admin
 
 @pytest.fixture
 def new_user_factory(db):
@@ -56,14 +32,17 @@ def new_user_factory(db):
     return create_app_user
 
 
-
 @pytest.fixture
 def new_user(db, new_user_factory):
     return new_user_factory(username='testUsername', password='TestDjangoPass')
 
+
 @pytest.fixture
-def new_admin(db, new_admin_factory):
-    return new_admin_factory(username='testAdmin', password='TestDjangoPass')
+def new_admin(db, new_user_factory):
+    return new_user_factory(username='testAdmin',
+                            password='TestDjangoPass',
+                            is_staff="True",
+                            is_superuser="True")
 
 
 @pytest.fixture
