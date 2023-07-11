@@ -1,0 +1,74 @@
+[
+{
+    "model": "accounts.customuser",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$ZHRynvt1mbQRiJkMdmXebF$FvaOee7oLNiKn77UeZKP0FwpmLnpp0Fw76DTWWgRAHA=",
+        "last_login": "2023-07-11T09:44:45.600Z",
+        "is_superuser": true,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2023-07-11T09:40:19.613Z",
+        "username": "admin",
+        "email": "admin@admin.com",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.customuser",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$CDLbly8I76SBjphadWM0rF$uFuXMce3o3HERRlnrEENm5VwyHPLeWZNDvaoqxlGw9w=",
+        "last_login": "2023-07-11T09:45:24.413Z",
+        "is_superuser": false,
+        "first_name": "John",
+        "last_name": "Zantos",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-07-11T09:45:23.823Z",
+        "username": "fixJohn",
+        "email": "john@zantos.com",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.customuser",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$9nNMYcB8mPDDY4lWCgbwcN$VhjZ3JD3VtSONrCxJNIjp32Bvu/5LADTy+Veg/KBlVE=",
+        "last_login": "2023-07-11T09:46:09.069Z",
+        "is_superuser": false,
+        "first_name": "Anna",
+        "last_name": "Faro",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-07-11T09:46:08.462Z",
+        "username": "fixAnna",
+        "email": "anna@faro.com",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.customuser",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$pEBBMtQAs6qvVPXBQG54Xk$fDctA3oVUSQ1t3pU/4piC0YTdG+TKBzY/6ukzK5AiPM=",
+        "last_login": "2023-07-11T09:47:04.954Z",
+        "is_superuser": false,
+        "first_name": "Kamil",
+        "last_name": "Kowalski",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-07-11T09:47:04.315Z",
+        "username": "fixKamil",
+        "email": "kamil@kowalski.com",
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]

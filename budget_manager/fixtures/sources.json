@@ -1,0 +1,23 @@
+[
+  {
+    "model": "budget_manager.source",
+    "pk": 1,
+    "fields": {
+      "name": "UoP",
+      "user_id": "1"
+    }},
+  {
+    "model": "budget_manager.source",
+    "pk": 2,
+    "fields": {
+      "name": "b2b",
+      "user_id": "1"
+    }},
+  {
+    "model": "budget_manager.source",
+    "pk": 3,
+    "fields": {
+      "name": "dodatkowe",
+      "user_id": "1"
+    }}
+]
