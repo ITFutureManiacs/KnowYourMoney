@@ -17,18 +17,42 @@ This is an application to control your home budget. It allows user to add income
 3. Requirements
    - Once your virtual environment is activated and project is cloned you need to install requirements:
                 
-           $ pip install -r requirements.txt
+         pip install -r requirements.txt
+
+    - and migrate database:
+
+          python manage.py migrate
+
+   
+     
 
 # Usage
-- To use this application you need to type (if you're in your workspace directory):
-  
-        python manage.py loaddata categories
+- To use this application with prepared records in the database
+  you need to type (while you're in your workspace directory):
 
+        python manage.py loaddata users
         python manage.py loaddata currencies
+        python manage.py loaddata categories
+        python manage.py loaddata sources
+        python manage.py loaddata expenses
+        python manage.py loaddata incomes
+
+  Prepared login data are:
+
+        username: admin, password: admin , email: admin@admin.com - superuser
+        username: fixJohn, password: FixPassForJohn, email: john@zantos.com
+        username": fixAnna, password: FixPassForAnna, email: anna@faro.com,
+        username: fixKamil, password": FixPassForKamil, email: kamil@kowalski.com,
+  
         
-        python manage.py runserver
+- You can also update your own data using superuser:
+
+        python manage.py createsuperuser
+
  
-- After that you need to create an account to start using app.
+- or after running server you can registrate and use app as a normal user.
+
+       python manage.py runserver
 
 
 - Main functionalities:
@@ -38,15 +62,16 @@ This is an application to control your home budget. It allows user to add income
   - User registration/login
   - Updating user profile
   - Password change
-
-
-- To do:
   - Adding income in different currencies
   - Adding expenses in different currencies
   - Filtering list of expenses
   - Filtering list of income
   - Adding categories of expenses
   - Adding sources of income
+
+- To do:
+  - adding a bar chart to the balance view summarizing monthly income/expenses
+  - adding category pie chart for expenses
 
 
 - Technologies used:
