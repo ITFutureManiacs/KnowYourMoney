@@ -17,18 +17,42 @@ This is an application to control your home budget. It allows user to add income
 3. Requirements
    - Once your virtual environment is activated and project is cloned you need to install requirements:
                 
-           $ pip install -r requirements.txt
+         pip install -r requirements.txt
+
+    - and migrate database:
+
+          python manage.py migrate
+
+   
+     
 
 # Usage
-- To use this application you need to type (if you're in your workspace directory):
-  
-        python manage.py loaddata categories
+- To use this application with prepared records in the database
+  you need to type (while you're in your workspace directory):
 
+        python manage.py loaddata users
         python manage.py loaddata currencies
+        python manage.py loaddata categories
+        python manage.py loaddata sources
+        python manage.py loaddata expenses
+        python manage.py loaddata incomes
+
+  Prepared login data are:
+
+        username: admin, password: admin , email: admin@admin.com - superuser
+        username: fixJohn, password: FixPassForJohn, email: john@zantos.com
+        username": fixAnna, password: FixPassForAnna, email: anna@faro.com,
+        username: fixKamil, password": FixPassForKamil, email: kamil@kowalski.com,
+  
         
-        python manage.py runserver
+- You can also update your own data using superuser:
+
+        python manage.py createsuperuser
+
  
-- After that you need to create an account to start using app.
+- or after running server you can registrate and use app as a normal user.
+
+       python manage.py runserver
 
 
 - Main functionalities:
@@ -38,9 +62,6 @@ This is an application to control your home budget. It allows user to add income
   - User registration/login
   - Updating user profile
   - Password change
-
-
-- To do:
   - Adding income in different currencies
   - Adding expenses in different currencies
   - Filtering list of expenses
@@ -48,15 +69,23 @@ This is an application to control your home budget. It allows user to add income
   - Adding categories of expenses
   - Adding sources of income
 
+- To do:
+  - adding a bar chart to the balance view summarizing monthly income/expenses
+  - adding category pie chart for expenses
+
 
 - Technologies used:
   - Python 3.10.6
   - Django == 4.2.2
   - HTML
   - Bootstrap
-# How does it look like:
-![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/122223926/06bb13c1-6261-449b-a527-89871fb7976e)
-![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/122223926/564560ea-525e-4320-b847-cbd4d3a7bbb9)
-![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/122223926/b65c22ff-cd6b-4658-9df8-e4d5c51497ee)
+# How does it look like:!
+
+![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/136881676/52f34dee-8a66-4915-bd4a-579efa80b5de)
+![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/136881676/9a08464b-6f6f-4ca8-9928-7d39f48c2807)
+![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/136881676/c562a730-4115-47be-9a47-c16eace985f0)
+![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/136881676/17581f7f-b61b-40c6-8275-6fe662caa004)
+![obraz](https://github.com/ITFutureManiacs/KnowYourMoney/assets/136881676/143d1b62-c12e-45cf-9727-28de0dd008a6)
+
 
 
