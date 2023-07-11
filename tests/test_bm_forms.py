@@ -8,7 +8,6 @@ def test_expense_update_success(new_expense):
                                  'currency': '1',
                                  'category': '1'})
     result = form.is_valid()
-
     assert result is True
     assert form.cleaned_data['name'] == 'tomato'
 
@@ -52,9 +51,8 @@ def test_income_update_success(new_income):
                                 'source': '1',
                                 'currency': '1'})
     result = form.is_valid()
-
     assert result is True
-    assert form.cleaned_data['amount'] == '7000'
+    assert form.cleaned_data['amount'] == 7000
 
 
 def test_income_update_negative_amount(new_income):
