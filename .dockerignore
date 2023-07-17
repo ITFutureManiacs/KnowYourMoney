@@ -1,0 +1,6 @@
+.idea
+.pytest_cache
+env
+db.sqlite3
+.git
+.Dockerfile
