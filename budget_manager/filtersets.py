@@ -49,13 +49,13 @@ class IncomeFilter(django_filters.FilterSet):
     income_date__gte = django_filters.DateFilter(
         widget=DateInput(attrs={"type": "date"}),
         label="Od",
-        field_name="expense_date",
+        field_name="income_date",
         lookup_expr="gte",
     )
     income_date__lte = django_filters.DateFilter(
         widget=DateInput(attrs={"type": "date"}),
         label="Do",
-        field_name="expense_date",
+        field_name="income_date",
         lookup_expr="lte",
     )
     source = django_filters.ModelChoiceFilter(label="Źródło", queryset=sources_list)
