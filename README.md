@@ -2,26 +2,38 @@
 This is an application to control your home budget. It allows user to add income and expenses and creates a balance.
 
 # Getting started
-1. To run this application you need to have installed Python. If you don't have it already, please visit 
-    Python.org to download it.
+To run this apllication You have two ways. First using docker and second standard with virtual environment.
 
+I. Assuming u have Docker installed on your machine You can run this project with simply two commands:
+    In workdir of project prompt: docker compose up --build
+    In browser: localhost:8000.
 
-2. Download 
-     
-   - You need to clone repository to your local destination
-   
-           $ cd path/to/your/workspace
-   
-           git clone https://github.com/ITFutureManiacs/KnowYourMoney.git
+    If you dont have Docker installed visit:
+        https://www.docker.com/products/docker-desktop/
 
-3. Requirements
-   - Once your virtual environment is activated and project is cloned you need to install requirements:
-                
-         pip install -r requirements.txt
+        and install Docker.
+II. You can start this project more traditional way if You want:
 
-    - and migrate database:
-
-          python manage.py migrate
+    1. To run this application you need to have installed Python. If you don't have it already, please visit 
+        Python.org to download it.
+    
+    
+    2. Download 
+         
+       - You need to clone repository to your local destination
+       
+               $ cd path/to/your/workspace
+       
+               git clone https://github.com/ITFutureManiacs/KnowYourMoney.git
+    
+    3. Requirements
+       - Once your virtual environment is activated and project is cloned you need to install requirements:
+                    
+             pip install -r requirements.txt
+    
+        - and migrate database:
+    
+              python manage.py migrate
 
    
      
